@@ -1,0 +1,44 @@
+{
+    "data": [
+        {
+            "name": "Horror",
+            "created_at": "2019-12-12 12:12:12",
+            "updated_at": "2019-12-12 12:12:12"
+        },
+        {
+            "name": "Action",
+            "created_at": "2019-12-12 12:12:12",
+            "updated_at": "2019-12-12 12:12:12"
+        },
+        {
+            "name": "Comedy",
+            "created_at": "2019-12-12 12:12:12",
+            "updated_at": "2019-12-12 12:12:12"
+        },
+        {
+            "name": "Drama",
+            "created_at": "2019-12-12 12:12:12",
+            "updated_at": "2019-12-12 12:12:12"
+        },
+        {
+            "name": "Romance",
+            "created_at": "2019-12-12 12:12:12",
+            "updated_at": "2019-12-12 12:12:12"
+        },
+        {
+            "name": "Thriller",
+            "created_at": "2019-12-12 12:12:12",
+            "updated_at": "2019-12-12 12:12:12"
+        },
+        {
+            "name": "Sci-Fi",
+            "created_at": "2019-12-12 12:12:12",
+            "updated_at": "2019-12-12 12:12:12"
+        },
+        {
+            "name": "Fantasy",
+            "created_at": "2019-12-12 12:12:12",
+            "updated_at": "2019-12-12 12:12:12"
+        }
+    ]
+}
