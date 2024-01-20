@@ -24,7 +24,7 @@ export class OrderItems extends BaseEntity implements IOrderItems {
 
     @ManyToOne(() => MovieSchedule, { onDelete: 'CASCADE' })
     @JoinColumn({ name: 'movie_schedule_id' })
-    schedule: IMovieSchedule;
+    schedules: IMovieSchedule;
 
     @Column()
     @Min(1)

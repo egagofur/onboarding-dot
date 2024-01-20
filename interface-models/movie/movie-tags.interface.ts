@@ -5,5 +5,5 @@ import { ITags } from './tags.interface';
 export interface IMovieTags extends IBaseEntity {
     id: number;
     movie: IMovie;
-    tags: ITags;
+    tag: ITags;
 }

@@ -5,7 +5,7 @@ import { IStudio } from './studio.interface';
 export interface IMovieSchedule extends IBaseEntity {
     id: number;
     movie: IMovie;
-    studio: IStudio;
+    studios: IStudio;
     startTime: Date;
     endTime: Date;
     price: number;

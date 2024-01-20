@@ -3,7 +3,7 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { MovieSchedule } from 'entities/movie/movie-schedule.entity';
 import { ScheduleService } from './services/schedule.service';
-import { ScheduleController } from './controller/schedule.controller';
+import { ScheduleController } from './controllers/schedule.controller';
 import { Studio } from 'entities/movie/studio.entity';
 import { Movie } from 'entities/movie/movie.entity';
 import { ScheduleCrudApplication } from './applications/schedule-crud.application';

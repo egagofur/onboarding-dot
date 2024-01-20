@@ -5,7 +5,7 @@ import { IMovieSchedule } from './movie-schedule.interface';
 export interface IOrderItems extends IBaseEntity {
     id: number;
     order: IOrder;
-    schedule: IMovieSchedule;
+    schedules: IMovieSchedule;
     qty: number;
     price: number;
     subTotalPrice: number;

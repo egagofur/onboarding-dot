@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { MovieService } from './services/movie.service';
-import { MovieController } from './controller/movie.controller';
+import { MovieController } from './controllers/movie.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Movie } from 'entities/movie/movie.entity';
 import { Tags } from 'entities/movie/tags.entity';
@@ -19,7 +19,7 @@ import { MovieCrudApplication } from './applications/movie-crud.application';
             MovieSchedule,
         ]),
     ],
-    providers: [MovieService],
+    providers: [MovieService, MovieCrudApplication],
     controllers: [MovieController],
     exports: [MovieCrudApplication],
 })

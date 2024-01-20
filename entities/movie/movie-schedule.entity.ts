@@ -27,7 +27,7 @@ export class MovieSchedule extends BaseEntity implements IMovieSchedule {
         eager: true,
     })
     @JoinColumn({ name: 'studio_id' })
-    studio: IStudio;
+    studios: IStudio;
 
     @Column({ name: 'start_time' })
     startTime: Date;

@@ -55,6 +55,7 @@ import { PauseModeMiddleware } from './infrastructure/gates/middlewares/pause-mo
 import { FailSafeModule } from './infrastructure/fail-safe/fail-safe.module';
 import { MovieModule } from './modules/movie/movie.module';
 import { StudioModule } from './modules/studio/studio.module';
+import { TagModule } from './modules/tag/tag.module';
 
 @Module({
     imports: [
@@ -86,6 +87,7 @@ import { StudioModule } from './modules/studio/studio.module';
         MovieModule,
         StudioModule,
         ScheduleModule,
+        TagModule,
     ],
     providers: [
         {
