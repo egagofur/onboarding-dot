@@ -1,14 +1,14 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Tags } from 'entities/movie/tags.entity';
+import { Tag } from 'entities/movie/tag.entity';
 import { ITags } from 'interface-models/movie/tags.interface';
 import { QueryFailedError, Repository } from 'typeorm';
 
 @Injectable()
 export class TagService {
     constructor(
-        @InjectRepository(Tags)
-        private readonly tagsRepository: Repository<Tags>,
+        @InjectRepository(Tag)
+        private readonly tagsRepository: Repository<Tag>,
     ) {}
 
     async findAll(): Promise<any[]> {
@@ -50,11 +50,11 @@ export class TagService {
         }
     }
 
-    async isMovieExistName(name: string): Promise<boolean> {
-        const movie = await this.tagsRepository.findOne({
+    async isTagExistName(name: string): Promise<boolean> {
+        const tag = await this.tagsRepository.findOne({
             where: { name },
         });
-        return movie !== null;
+        return tag !== null;
     }
 
     async findAllById(ids: number[]): Promise<any[]> {

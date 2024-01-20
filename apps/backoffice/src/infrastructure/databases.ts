@@ -12,6 +12,11 @@ import { InAppNotification } from 'entities/notification/in-app-notification.ent
 import { Otp } from 'entities/otp/otp.entity';
 import { ConnectionOptions, createConnection, Logger } from 'typeorm';
 import { SentryQueryService } from './sentry/sentry-query.service';
+import { Tag } from 'entities/movie/tag.entity';
+import { MovieTags } from 'entities/movie/movie-tags.entity';
+import { Movie } from 'entities/movie/movie.entity';
+import { Studio } from 'entities/movie/studio.entity';
+import { MovieSchedule } from 'entities/movie/movie-schedule.entity';
 
 export const connectionOption: ConnectionOptions = {
     type: 'mysql',
@@ -30,6 +35,11 @@ export const connectionOption: ConnectionOptions = {
         Config,
         LogActivity,
         UserRole,
+        Tag,
+        MovieTags,
+        Movie,
+        Studio,
+        MovieSchedule,
     ],
     synchronize: false,
     logging: config.nodeEnv === 'local',

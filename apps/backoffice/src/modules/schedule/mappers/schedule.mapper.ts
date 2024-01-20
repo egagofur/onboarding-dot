@@ -4,7 +4,7 @@ export class ScheduleMapper {
     public static fromEntity = (movie: IMovieSchedule) => ({
         id: movie.id,
         movie: movie.movie,
-        studio: movie.studio,
+        studios: movie.studios,
         startTime: movie.startTime,
         endTime: movie.endTime,
         price: movie.price,

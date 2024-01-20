@@ -23,7 +23,7 @@ export class ScheduleService {
 
         const studio = await this.studioRepository.findOneOrFail({
             where: {
-                id: data.studio,
+                id: data.studios,
             },
         });
 
