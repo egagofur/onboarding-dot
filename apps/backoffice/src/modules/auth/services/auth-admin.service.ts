@@ -4,12 +4,14 @@ import { Repository } from 'typeorm';
 import { User } from 'entities/iam/user.entity';
 import { IUser } from 'interface-models/iam/user.interface';
 import { Utils } from 'apps/backoffice/src/common/utils/util';
+import { RoleService } from '../../iam/services/role.service';
 
 @Injectable()
 export class AdminAuthService {
     constructor(
         @InjectRepository(User)
         private readonly adminRepository: Repository<User>,
+        private readonly roleService: RoleService,
     ) {}
 
     async addOneSignalPlayerIdById(
@@ -76,5 +78,10 @@ export class AdminAuthService {
                 oneSignalPlayerIds: admin.oneSignalPlayerIds,
             },
         );
+    }
+
+    async getAllRoles(): Promise<any> {
+        const roles = await this.roleService.findAll();
+        return roles;
     }
 }

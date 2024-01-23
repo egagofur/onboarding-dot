@@ -1,5 +1,9 @@
 import { LogActivityMenuEnum } from 'apps/backoffice/src/common/enums/log-activity.enum';
-import { Inject, Injectable } from '@nestjs/common';
+import {
+    Inject,
+    Injectable,
+    UnprocessableEntityException,
+} from '@nestjs/common';
 import { REQUEST } from '@nestjs/core';
 import { EmailNotificationService } from 'apps/backoffice/src/infrastructure/notification/services/email-notification.service';
 import { OneSignalPushNotificationService } from '../../../infrastructure/notification/services/one-signal-push-notification.service';
@@ -7,6 +11,14 @@ import { AdminAuthService } from '../services/auth-admin.service';
 import { Request } from 'express';
 import { LogActivityService } from '../../log-activity/services/log-activity.service';
 import { IUser } from 'interface-models/iam/user.interface';
+import { AuthUserService } from '../services/auth-user.service';
+import { MailService } from 'apps/backoffice/src/infrastructure/mail/service/mail.service';
+import { UserRegisterRequest } from '../requests/user-register.request';
+import { UserRoleService } from '../../iam/services/user-role.service';
+import { Utils } from 'apps/backoffice/src/common/utils/util';
+import { getManager } from 'typeorm';
+import { Role } from 'entities/iam/role.entity';
+import { UserRole } from 'entities/iam/user-role.entity';
 
 @Injectable()
 export class AuthApplication {
@@ -16,6 +28,9 @@ export class AuthApplication {
         private readonly oneSignalPushNotificationService: OneSignalPushNotificationService,
         private readonly emailNotificationService: EmailNotificationService,
         private readonly logActivityService: LogActivityService,
+        private readonly authUserService: AuthUserService,
+        private readonly emailService: MailService,
+        private readonly userRoleService: UserRoleService,
     ) {}
 
     async addOneSignalPlayerIdById(
@@ -27,6 +42,15 @@ export class AuthApplication {
         this.request.session['playerId'] = playerId || null;
     }
 
+    async sendNotifEmailRegister(email: string): Promise<void> {
+        this.emailNotificationService.sendEmail(
+            'Register Attempt',
+            {},
+            'mail-test',
+            email,
+        );
+    }
+
     async sendNotifEmailLoginAttempt(): Promise<void> {
         const email = this.request.user['email'];
         this.emailNotificationService.sendEmail(
@@ -35,6 +59,57 @@ export class AuthApplication {
             'login-attempt',
             email,
         );
+    }
+
+    async registerUser(data: UserRegisterRequest): Promise<void> {
+        const isUserExists = await this.authUserService.isUserExistsByEmail(
+            data.email,
+        );
+
+        if (isUserExists) {
+            throw new UnprocessableEntityException('Email already registered');
+        }
+
+        const newUser = <IUser>{
+            fullname: data.fullname,
+            email: data.email,
+            phoneNumber: data.phoneNumber,
+            identityNumber: data.phoneNumber,
+            password: await Utils.bcryptHash(data.password),
+        };
+
+        try {
+            await this.sendNotifEmailRegister(data.email);
+        } catch (error) {
+            console.log(error);
+        }
+
+        const createdUser = await this.authUserService.createUser(newUser);
+
+        const roles = await getManager()
+            .getRepository(Role)
+            .findByIds(data.roles);
+
+        const userRoles: UserRole[] = [];
+        roles.forEach((role) => {
+            const userRole = new UserRole();
+            userRole.role = role;
+            userRole.user = createdUser;
+            userRoles.push(userRole);
+        });
+
+        await this.userRoleService.bulkSave(userRoles);
+
+        this.logActivityService.create({
+            activity: 'user register with email ' + data.email,
+            metaData: {
+                email: data.email,
+            },
+            user: this.request.user as IUser,
+            source: data.email,
+            menu: LogActivityMenuEnum.AUTH,
+            path: __filename,
+        });
     }
 
     async loginAttempt(id: number, playerId: string): Promise<void> {
@@ -82,5 +157,9 @@ export class AuthApplication {
         this.request.logOut((done) => {
             console.log(done);
         });
+    }
+
+    async getAllRoles(): Promise<any> {
+        return await this.adminAuthService.getAllRoles();
     }
 }

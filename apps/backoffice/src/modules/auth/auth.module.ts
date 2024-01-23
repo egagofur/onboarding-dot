@@ -28,10 +28,20 @@ import { Connection } from 'typeorm';
 import { OidcStrategy, buildOpenIdClient } from './strategies/oidc.strategy';
 import { RedisModule } from '../../infrastructure/redis';
 import { FailSafeModule } from '../../infrastructure/fail-safe/fail-safe.module';
+import { MailModule } from '../../infrastructure/mail/mail.module';
+import { MailService } from '../../infrastructure/mail/service/mail.service';
+import { AuthUserService } from './services/auth-user.service';
 
 @Module({
     imports: [
-        TypeOrmModule.forFeature([User, Role, Otp, LogActivity, UserRole]),
+        TypeOrmModule.forFeature([
+            User,
+            Role,
+            Otp,
+            LogActivity,
+            UserRole,
+            Role,
+        ]),
         PassportModule.register({
             session: true,
             defaultStrategy: 'local',
@@ -39,6 +49,7 @@ import { FailSafeModule } from '../../infrastructure/fail-safe/fail-safe.module'
         CacheModule,
         RedisModule,
         FailSafeModule,
+        MailModule,
     ],
     controllers: [AuthController, ForgotPasswordController],
     providers: [
@@ -52,7 +63,10 @@ import { FailSafeModule } from '../../infrastructure/fail-safe/fail-safe.module'
         EmailNotificationService,
         OneSignalPushNotificationService,
         OtpService,
+        MailService,
+        AuthUserService,
         LocalStrategy,
+        AdminAuthService,
         {
             provide: 'OidcStrategy',
             useFactory: async (connection: Connection) => {

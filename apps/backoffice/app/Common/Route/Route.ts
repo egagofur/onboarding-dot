@@ -17,6 +17,7 @@ export enum Route {
     ProfileEditPassword = '/profile/edit/password',
 
     AuthLogin = '/auth/login',
+    AuthRegister = '/auth/register',
     AuthLogout = '/auth/logout',
     AuthForgotPassword = '/auth/forgot-password',
     AuthConfirmForgotPassword = '/auth/confirm-forgot-password',

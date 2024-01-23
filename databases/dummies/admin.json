@@ -10,8 +10,8 @@
         },
         {
             "fullname": "user",
-            "email": "user@getnada.com",
-            "password": "Rahasia123",
+            "email": "user@user.com",
+            "password": "rahasia",
             "phoneNumber": "+628822220002",
             "identityNumber": "123123123129",
             "gender": "MALE"

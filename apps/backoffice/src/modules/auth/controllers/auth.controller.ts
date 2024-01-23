@@ -1,4 +1,5 @@
 import {
+    Body,
     Controller,
     Get,
     Post,
@@ -15,12 +16,15 @@ import { LoggedInGuard } from '../guards/logged-in.guard';
 import { LoggedOutGuard } from '../guards/logged-out.guard';
 import { OidcGuard } from '../guards/oidc.guard';
 import { FailSafeCheck } from 'apps/backoffice/src/infrastructure/fail-safe/decorators/fail-safe.decorator';
+import { MailService } from 'apps/backoffice/src/infrastructure/mail/service/mail.service';
+import { UserRegisterRequest } from '../requests/user-register.request';
 
 @Controller('auth')
 export class AuthController {
     constructor(
         private readonly inertiaAdapter: InertiaAdapter,
         private readonly authApplication: AuthApplication,
+        private readonly mailService: MailService,
     ) {}
 
     @Get('login')
@@ -29,6 +33,19 @@ export class AuthController {
     async loginPage(): Promise<void> {
         return this.inertiaAdapter.render({
             component: 'Login',
+        });
+    }
+
+    @Get('register')
+    @FailSafeCheck()
+    @UseGuards(LoggedOutGuard)
+    async registerPage(): Promise<void> {
+        const getRoles = await this.authApplication.getAllRoles();
+        return this.inertiaAdapter.render({
+            component: 'Register',
+            props: {
+                roles: getRoles,
+            },
         });
     }
 
@@ -58,8 +75,18 @@ export class AuthController {
         @Req() req: Request,
     ): Promise<void> {
         const id = req.user['id'];
+        console.log('aman controller login');
         await this.authApplication.loginAttempt(id, playerId);
+
         return this.inertiaAdapter.successResponse('/', 'Success Login');
+    }
+
+    @Post('register')
+    async register(@Body() data: UserRegisterRequest): Promise<void> {
+        console.log('aman controller');
+        await this.authApplication.registerUser(data);
+
+        return this.inertiaAdapter.successResponse('/', 'Success Register');
     }
 
     @UseGuards(LoggedInGuard)

@@ -12,33 +12,62 @@ import {
     notification,
     Row,
     Col,
+    Select,
 } from 'antd';
 import { LoginLayout } from '../Layouts';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 
 import { Link } from '@inertiajs/inertia-react';
-import { doLogin } from '../Modules/Auth/Login/Actions';
-import { TLogin } from '../Modules/Auth/Login/Entities';
 import { TInertiaProps } from '../Modules/Inertia/Entities';
 import { createYupSync, isMobileScreen } from '../Utils/utils';
 import { themeColors } from '../Utils/theme';
 import { FormContainer } from '../Components/organisms/FormContainer';
+import { TRegister } from '../Modules/Auth/Register/Entities';
+import { doRegister } from '../Modules/Auth/Register/Action';
+import { IUserForm } from '../Modules/User/Entities';
+import { IRole } from '../Modules/Role/Entities';
+import { IUser } from '../Modules/Profile/Entities';
 
-const schema: yup.SchemaOf<TLogin> = yup.object().shape({
+const schema: yup.SchemaOf<IUserForm> = yup.object().shape({
     email: yup
         .string()
         .email('Field Email wajib berformat email')
         .required('Field Email wajib diisi'),
-    password: yup.string().required('Field Password wajib diisi'),
+    password: yup
+        .string()
+        .required('Field password is required')
+        .min(8, 'Password at least have 8 character')
+        .test(
+            'isFormatValid',
+            'At least password has include 1 number and Alphabet',
+            (value) => {
+                const hasUpperCase = /[A-Z]/.test(value);
+                const hasNumber = /[0-9]/.test(value);
+
+                if (hasNumber && hasUpperCase) {
+                    return true;
+                }
+
+                return false;
+            },
+        ),
+    phoneNumber: yup.string().required('Field Phone Number wajib diisi'),
+    fullname: yup.string().required('Field Full Name wajib diisi'),
+    roles: yup.array().of(yup.number().required('Field roles is required')),
 });
 
 const formItemSpacingStyle = {
     marginBottom: '16px',
 };
 
-const Login = (props: TInertiaProps) => {
+interface IProps extends TInertiaProps {
+    roles: IRole[];
+    data?: IUser;
+}
+
+const Register = (props: IProps) => {
     const yupSync = createYupSync(schema);
-    const [form] = Form.useForm<TLogin>();
+    const [form] = Form.useForm<TRegister>();
 
     const isMobile = isMobileScreen();
 
@@ -61,8 +90,8 @@ const Login = (props: TInertiaProps) => {
         }
     };
 
-    const onSubmit = (loginData: TLogin): void => {
-        doLogin(loginData);
+    const onSubmit = (registerData: TRegister): void => {
+        doRegister(registerData);
     };
 
     return (
@@ -82,12 +111,9 @@ const Login = (props: TInertiaProps) => {
                             textAlign: 'center',
                         }}
                     >
-                        <Typography.Title level={4}>
-                            Welcome back!
-                        </Typography.Title>
+                        <Typography.Title level={4}>Register</Typography.Title>
                         <Typography.Text style={{ opacity: 0.5 }}>
-                            Ant Design is the most influential web design
-                            specification in Xihu district
+                            Welcome back! Register to continue
                         </Typography.Text>
                     </Space>
 
@@ -103,12 +129,29 @@ const Login = (props: TInertiaProps) => {
                         className="login-form"
                     >
                         <Form.Item
+                            name={'fullname'}
+                            rules={[yupSync]}
+                            style={formItemSpacingStyle}
+                        >
+                            <Input name="fullname" placeholder="full name" />
+                        </Form.Item>
+                        <Form.Item
+                            name={'phoneNumber'}
+                            rules={[yupSync]}
+                            style={formItemSpacingStyle}
+                        >
+                            <Input
+                                name="phoneNumber"
+                                placeholder="phone number"
+                            />
+                        </Form.Item>
+                        <Form.Item
                             name="email"
                             rules={[yupSync]}
                             style={formItemSpacingStyle}
                         >
                             <Input
-                                placeholder="Username"
+                                placeholder="Email"
                                 prefix={<UserOutlined />}
                             />
                         </Form.Item>
@@ -121,6 +164,18 @@ const Login = (props: TInertiaProps) => {
                                 placeholder="Password"
                                 prefix={<LockOutlined />}
                             />
+                        </Form.Item>
+                        <Form.Item name="roles" rules={[yupSync]} required>
+                            <Select placeholder="Select" mode="multiple">
+                                {props.roles.map((role) => (
+                                    <Select.Option
+                                        value={role.id}
+                                        key={role.id}
+                                    >
+                                        {role.name}
+                                    </Select.Option>
+                                ))}
+                            </Select>
                         </Form.Item>
                         <Form.Item style={formItemSpacingStyle}>
                             <Form.Item
@@ -144,7 +199,7 @@ const Login = (props: TInertiaProps) => {
                                 htmlType="submit"
                                 className="login-form-button"
                             >
-                                Login
+                                Register
                             </Button>
                         </Form.Item>
                         <Form.Item
@@ -155,18 +210,10 @@ const Login = (props: TInertiaProps) => {
                         >
                             Or{' '}
                             <Link
-                                href="/auth/register"
+                                href="/auth/login"
                                 style={{ color: themeColors.primary }}
                             >
-                                Register now!
-                            </Link>
-                            {' Or '}
-                            <Link
-                                href="/auth/forgot-password"
-                                target="blank"
-                                style={{ color: themeColors.primary }}
-                            >
-                                Forgot Password?
+                                Login now!
                             </Link>
                         </Form.Item>
                     </FormContainer>
@@ -175,4 +222,4 @@ const Login = (props: TInertiaProps) => {
         </LoginLayout>
     );
 };
-export default Login;
+export default Register;

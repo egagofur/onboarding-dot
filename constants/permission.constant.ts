@@ -1,6 +1,12 @@
 // BACKOFFICE
 export const PERMISSION_BACKOFFICE_SHOW_DASHBOARD = 'backoffice-show-dashboard';
 
+export const PERMISSION_BACKOFFICE_SHOW_MOVIE = 'backoffice-show-movie';
+export const PERMISSION_BACKOFFICE_DETAIL_MOVIE = 'backoffice-detail-movie';
+export const PERMISSION_BACKOFFICE_UPDATE_MOVIE = 'backoffice-update-movie';
+export const PERMISSION_BACKOFFICE_CREATE_MOVIE = 'backoffice-create-movie';
+export const PERMISSION_BACKOFFICE_DELETE_MOVIE = 'backoffice-delete-movie';
+
 export const PERMISSION_BACKOFFICE_SHOW_CONFIG = 'backoffice-show-config';
 export const PERMISSION_BACKOFFICE_DETAIL_CONFIG = 'backoffice-detail-config';
 export const PERMISSION_BACKOFFICE_UPDATE_CONFIG = 'backoffice-update-config';

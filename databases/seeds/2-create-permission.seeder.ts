@@ -26,6 +26,11 @@ import {
     PERMISSION_BACKOFFICE_DELETE_ROLE_PERMISSION,
     PERMISSION_BACKOFFICE_SHOW_LOG_ACTIVITY,
     PERMISSION_BACKOFFICE_DETAIL_LOG_ACTIVITY,
+    PERMISSION_BACKOFFICE_SHOW_MOVIE,
+    PERMISSION_BACKOFFICE_DETAIL_MOVIE,
+    PERMISSION_BACKOFFICE_UPDATE_MOVIE,
+    PERMISSION_BACKOFFICE_CREATE_MOVIE,
+    PERMISSION_BACKOFFICE_DELETE_MOVIE,
 } from 'constants/permission.constant';
 import { Permission } from '../../entities/iam/permission.entity';
 import { Exception } from 'handlebars';
@@ -65,6 +70,12 @@ export class CreatePermissionSeeder implements Seeder {
                 PERMISSION_BACKOFFICE_SHOW_PERMISSION,
                 PERMISSION_BACKOFFICE_DETAIL_PERMISSION,
                 PERMISSION_BACKOFFICE_UPDATE_PERMISSION,
+
+                PERMISSION_BACKOFFICE_SHOW_MOVIE,
+                PERMISSION_BACKOFFICE_DETAIL_MOVIE,
+                PERMISSION_BACKOFFICE_UPDATE_MOVIE,
+                PERMISSION_BACKOFFICE_CREATE_MOVIE,
+                PERMISSION_BACKOFFICE_DELETE_MOVIE,
             ];
 
             const deleteAll = await connection
