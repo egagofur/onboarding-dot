@@ -5,7 +5,7 @@ import { TagService } from '../services/tag.service';
 export class TagCrudApplication {
     constructor(private readonly tagService: TagService) {}
 
-    async createTag() {
-        return 'createTag';
+    async findAll(): Promise<any[]> {
+        return await this.tagService.findAll();
     }
 }

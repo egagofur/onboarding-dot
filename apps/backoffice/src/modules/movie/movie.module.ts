@@ -10,6 +10,8 @@ import { MovieSchedule } from 'entities/movie/movie-schedule.entity';
 import { MovieCrudApplication } from './applications/movie-crud.application';
 import { InertiaAdapter } from '../../infrastructure/inertia/adapter/inertia.adapter';
 import { MovieIndexApplication } from './applications/movie-index.application';
+import { TagService } from '../tag/services/tag.service';
+import { TagCrudApplication } from '../tag/applications/tag-crud.application';
 
 @Module({
     imports: [
@@ -26,6 +28,8 @@ import { MovieIndexApplication } from './applications/movie-index.application';
         MovieCrudApplication,
         InertiaAdapter,
         MovieIndexApplication,
+        TagService,
+        TagCrudApplication,
     ],
     controllers: [MovieController],
     exports: [MovieCrudApplication],

@@ -8,6 +8,7 @@ import { MovieUpdateRequest } from '../request/movie-update.request';
 export class MovieCrudApplication {
     constructor(private readonly movieService: MovieService) {}
 
+    // TODO: Mapping Tags and views on index page
     async create(movieRequest: MovieCreateRequest): Promise<void> {
         const isMovieExist = await this.movieService.isMovieExistsByTitle(
             movieRequest.title,

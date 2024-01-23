@@ -16,6 +16,6 @@ export class MovieTags extends BaseEntity implements IMovieTags {
     movie: IMovie;
 
     @ManyToOne(() => Tag, (tag) => tag.id, { onDelete: 'CASCADE' })
-    @JoinColumn({ name: 'tags_id' })
+    @JoinColumn({ name: 'tag_id' })
     tag: ITags;
 }

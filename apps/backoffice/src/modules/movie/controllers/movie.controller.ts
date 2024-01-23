@@ -20,10 +20,10 @@ import { PermissionGuard } from '../../auth/guards/permission.guard';
 import {
     PERMISSION_BACKOFFICE_CREATE_MOVIE,
     PERMISSION_BACKOFFICE_DELETE_MOVIE,
-    PERMISSION_BACKOFFICE_DETAIL_MOVIE,
     PERMISSION_BACKOFFICE_SHOW_MOVIE,
     PERMISSION_BACKOFFICE_UPDATE_MOVIE,
 } from 'constants/permission.constant';
+import { TagCrudApplication } from '../../tag/applications/tag-crud.application';
 
 @Controller('movies')
 export class MovieController {
@@ -31,6 +31,7 @@ export class MovieController {
         private readonly inertiaAdapter: InertiaAdapter,
         private readonly movieCrudApplication: MovieCrudApplication,
         private readonly movieIndexApplication: MovieIndexApplication,
+        private readonly tagCrudApplication: TagCrudApplication,
     ) {}
 
     @UseGuards(PermissionGuard(PERMISSION_BACKOFFICE_CREATE_MOVIE))
@@ -85,26 +86,27 @@ export class MovieController {
     @UseGuards(PermissionGuard(PERMISSION_BACKOFFICE_CREATE_MOVIE))
     @Get('create')
     async createPage(): Promise<void> {
-        const movies = await this.movieCrudApplication.findAll();
+        const tags = await this.tagCrudApplication.findAll();
         return this.inertiaAdapter.render({
             component: 'Movies/formMovie',
             props: {
-                movies,
+                tags,
             },
         });
     }
 
-    @UseGuards(PermissionGuard(PERMISSION_BACKOFFICE_DETAIL_MOVIE))
+    @UseGuards(PermissionGuard(PERMISSION_BACKOFFICE_UPDATE_MOVIE))
     @Get('edit/:id')
     async editPage(@Param('id') id: number): Promise<void> {
         const data = await this.movieCrudApplication.findById(id);
-        const movies = await this.movieCrudApplication.findAll();
+        const tags = await this.tagCrudApplication.findAll();
 
         return this.inertiaAdapter.render({
             component: 'Movies/formMovie',
             props: {
+                id,
                 data,
-                movies,
+                tags,
                 isEdit: true,
             },
         });

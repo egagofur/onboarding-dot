@@ -33,10 +33,15 @@ export class MovieService {
     }
 
     async findOneById(id: number): Promise<IMovie> {
-        return await this.movieRepository.findOneOrFail({
-            where: { id },
-            relations: ['tags'],
-        });
+        try {
+            const movie = this.movieRepository.createQueryBuilder('movie');
+            movie.leftJoinAndSelect('movie.tag', 'tag');
+            const result = await movie.where('movie.id = :id', { id }).getOne();
+            console.log(result);
+            return result;
+        } catch (error) {
+            console.log(error);
+        }
     }
 
     async findOneByTitle(title: string): Promise<IMovie> {
