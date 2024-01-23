@@ -19,11 +19,14 @@ import { Utils } from 'apps/backoffice/src/common/utils/util';
 import { getManager } from 'typeorm';
 import { Role } from 'entities/iam/role.entity';
 import { UserRole } from 'entities/iam/user-role.entity';
+import { InjectQueue } from '@nestjs/bull';
+import { Queue } from 'bull';
 
 @Injectable()
 export class AuthApplication {
     constructor(
         @Inject(REQUEST) private readonly request: Request,
+        @InjectQueue('send-email') private sendEmailQueue: Queue,
         private readonly adminAuthService: AdminAuthService,
         private readonly oneSignalPushNotificationService: OneSignalPushNotificationService,
         private readonly emailNotificationService: EmailNotificationService,
@@ -40,25 +43,6 @@ export class AuthApplication {
         await this.adminAuthService.addOneSignalPlayerIdById(id, playerId);
         await this.oneSignalPushNotificationService.setStatus(playerId, true);
         this.request.session['playerId'] = playerId || null;
-    }
-
-    async sendNotifEmailRegister(email: string): Promise<void> {
-        this.emailNotificationService.sendEmail(
-            'Register Attempt',
-            {},
-            'mail-test',
-            email,
-        );
-    }
-
-    async sendNotifEmailLoginAttempt(): Promise<void> {
-        const email = this.request.user['email'];
-        this.emailNotificationService.sendEmail(
-            'Login Attempt',
-            {},
-            'login-attempt',
-            email,
-        );
     }
 
     async registerUser(data: UserRegisterRequest): Promise<void> {
@@ -79,7 +63,12 @@ export class AuthApplication {
         };
 
         try {
-            await this.sendNotifEmailRegister(data.email);
+            await this.sendEmailQueue.add('sendEmail', {
+                to: data.email,
+                subject: 'Register Attempt',
+                template: 'mail-test',
+                data: {},
+            });
         } catch (error) {
             console.log(error);
         }
@@ -121,7 +110,17 @@ export class AuthApplication {
             await this.addOneSignalPlayerIdById(id, playerId);
         }
 
-        await this.sendNotifEmailLoginAttempt();
+        try {
+            const email = this.request.user['email'];
+            await this.sendEmailQueue.add('sendEmail', {
+                to: email,
+                subject: 'Login Attempt',
+                template: 'mail-test',
+                data: {},
+            });
+        } catch (error) {
+            console.log('error catch application' + error);
+        }
 
         this.logActivityService.create({
             activity:

@@ -7,14 +7,6 @@
             "phoneNumber": "+6288228568957",
             "identityNumber": "123123123123",
             "gender": "MALE"
-        },
-        {
-            "fullname": "user",
-            "email": "user@user.com",
-            "password": "rahasia",
-            "phoneNumber": "+628822220002",
-            "identityNumber": "123123123129",
-            "gender": "MALE"
         }
     ]
 }

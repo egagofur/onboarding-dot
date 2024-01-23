@@ -31,6 +31,8 @@ import { FailSafeModule } from '../../infrastructure/fail-safe/fail-safe.module'
 import { MailModule } from '../../infrastructure/mail/mail.module';
 import { MailService } from '../../infrastructure/mail/service/mail.service';
 import { AuthUserService } from './services/auth-user.service';
+import { BullModule } from '@nestjs/bull';
+import { AuthSendEmailQueueProcessor } from './applications/auth.processor';
 
 @Module({
     imports: [
@@ -50,6 +52,13 @@ import { AuthUserService } from './services/auth-user.service';
         RedisModule,
         FailSafeModule,
         MailModule,
+        BullModule.registerQueue({
+            name: 'send-email',
+            limiter: {
+                max: 1000,
+                duration: 1000,
+            },
+        }),
     ],
     controllers: [AuthController, ForgotPasswordController],
     providers: [
@@ -66,6 +75,7 @@ import { AuthUserService } from './services/auth-user.service';
         MailService,
         AuthUserService,
         LocalStrategy,
+        AuthSendEmailQueueProcessor,
         AdminAuthService,
         {
             provide: 'OidcStrategy',
@@ -85,7 +95,6 @@ import { AuthUserService } from './services/auth-user.service';
             },
             inject: [Connection],
         },
-
         UserCrudApplication,
         LogActivityService,
         LdapService,

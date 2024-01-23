@@ -67,32 +67,32 @@ interface IProps extends TInertiaProps {
 
 const Register = (props: IProps) => {
     const yupSync = createYupSync(schema);
+    const [phoneNumber, setPhoneNumber] = React.useState<string>('');
     const [form] = Form.useForm<TRegister>();
 
     const isMobile = isMobileScreen();
 
     const [api, contextHolder] = notification.useNotification();
 
-    const openNotification = (type: string) => {
-        if (type === 'error') {
-            api.error({
-                message: 'Error',
-                description: 'Terjadi Kesalahan',
-                placement: 'topRight',
-            });
-        }
-        if (type === 'success') {
-            api.success({
-                message: 'Success',
-                description: 'Welcome Joen Doe',
-                placement: 'topRight',
-            });
-        }
+    const onSubmit = (registerData: TRegister): void => {
+        const newUserRegisterd: IUserForm = {
+            ...registerData,
+            phoneNumber: `+${phoneNumber}${registerData.phoneNumber}`,
+        };
+        doRegister(newUserRegisterd);
     };
 
-    const onSubmit = (registerData: TRegister): void => {
-        doRegister(registerData);
-    };
+    const prefixSelector = (
+        <Form.Item name="prefix" noStyle>
+            <Select
+                style={{ width: 70 }}
+                onSelect={(value) => setPhoneNumber(value)}
+            >
+                <Select.Option value="62">+62</Select.Option>
+                <Select.Option value="87">+87</Select.Option>
+            </Select>
+        </Form.Item>
+    );
 
     return (
         <LoginLayout title="Login">
@@ -142,6 +142,7 @@ const Register = (props: IProps) => {
                         >
                             <Input
                                 name="phoneNumber"
+                                addonBefore={prefixSelector}
                                 placeholder="phone number"
                             />
                         </Form.Item>

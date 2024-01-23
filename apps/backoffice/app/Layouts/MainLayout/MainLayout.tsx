@@ -122,6 +122,12 @@ const menuItems: MenuItem[] = [
         ],
     },
     {
+        key: 'Movies',
+        label: <Link href={Route.Movies}>Movie</Link>,
+        icon: <BarsOutlined />,
+        theme: 'light',
+    },
+    {
         key: Route.LogActivity,
         label: <Link href={Route.LogActivity}>Log Activity</Link>,
         icon: <HistoryOutlined />,

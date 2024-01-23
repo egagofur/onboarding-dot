@@ -75,7 +75,7 @@ export class AuthController {
         @Req() req: Request,
     ): Promise<void> {
         const id = req.user['id'];
-        console.log('aman controller login');
+
         await this.authApplication.loginAttempt(id, playerId);
 
         return this.inertiaAdapter.successResponse('/', 'Success Login');
@@ -83,7 +83,6 @@ export class AuthController {
 
     @Post('register')
     async register(@Body() data: UserRegisterRequest): Promise<void> {
-        console.log('aman controller');
         await this.authApplication.registerUser(data);
 
         return this.inertiaAdapter.successResponse('/', 'Success Register');

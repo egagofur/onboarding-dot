@@ -56,6 +56,8 @@ import { FailSafeModule } from './infrastructure/fail-safe/fail-safe.module';
 import { MovieModule } from './modules/movie/movie.module';
 import { StudioModule } from './modules/studio/studio.module';
 import { TagModule } from './modules/tag/tag.module';
+import { BullModule } from '@nestjs/bull';
+import { config } from './config';
 
 @Module({
     imports: [
@@ -88,6 +90,13 @@ import { TagModule } from './modules/tag/tag.module';
         StudioModule,
         ScheduleModule,
         TagModule,
+        BullModule.forRoot({
+            redis: {
+                host: config.redis.host,
+                port: Number(config.redis.port),
+                password: config.redis.password,
+            },
+        }),
     ],
     providers: [
         {

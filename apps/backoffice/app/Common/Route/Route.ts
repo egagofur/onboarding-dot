@@ -63,4 +63,10 @@ export enum Route {
     SampleFormBasic = '/sample/form/basic',
     SampleFormStep = '/sample/form/step',
     SampleFormAdvanced = '/sample/form/advanced',
+
+    Movies = '/movies',
+    MovieDetail = '/movies/:id',
+    MovieCreate = '/movies/create',
+    MovieEdit = '/movies/edit/:id',
+    MovieDelete = '/movies/delete/:id',
 }
