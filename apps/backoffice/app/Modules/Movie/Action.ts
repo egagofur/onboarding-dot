@@ -1,17 +1,8 @@
 import { Inertia } from '@inertiajs/inertia';
 import { Route, route } from '../../Common/Route/Route';
 
-export const updateMovie = (id: number, data) => {
-    new Promise((resolve, reject) => {
-        Inertia.put(route(Route.MovieEdit, { id }), data, {
-            onSuccess: (success) => {
-                resolve(success);
-            },
-            onError: (error) => {
-                reject(error);
-            },
-        });
-    });
+export const updateMovie = async (id: number, data: any) => {
+    Inertia.patch(route(Route.MovieEdit, { id }), data);
 };
 
 export const createMovie = (data: any) => {
@@ -28,18 +19,5 @@ export const createMovie = (data: any) => {
 };
 
 export const deleteMovie = (id: number) => {
-    new Promise((resolve, reject) => {
-        Inertia.post(
-            route(Route.MovieDelete, { id }),
-            {},
-            {
-                onSuccess: (success) => {
-                    resolve(success);
-                },
-                onError: (error) => {
-                    reject(error);
-                },
-            },
-        );
-    });
+    Inertia.delete(route(Route.MovieDelete, { id: id }));
 };

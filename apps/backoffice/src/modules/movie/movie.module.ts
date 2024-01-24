@@ -12,6 +12,7 @@ import { InertiaAdapter } from '../../infrastructure/inertia/adapter/inertia.ada
 import { MovieIndexApplication } from './applications/movie-index.application';
 import { TagService } from '../tag/services/tag.service';
 import { TagCrudApplication } from '../tag/applications/tag-crud.application';
+import { MovieTagService } from '../movie-tag/services/movie-tag.service';
 
 @Module({
     imports: [
@@ -30,6 +31,7 @@ import { TagCrudApplication } from '../tag/applications/tag-crud.application';
         MovieIndexApplication,
         TagService,
         TagCrudApplication,
+        MovieTagService,
     ],
     controllers: [MovieController],
     exports: [MovieCrudApplication],

@@ -4,8 +4,8 @@ import {
     Delete,
     Get,
     Param,
+    Patch,
     Post,
-    Put,
     Query,
     UseGuards,
 } from '@nestjs/common';
@@ -13,7 +13,6 @@ import { InertiaAdapter } from 'apps/backoffice/src/infrastructure/inertia/adapt
 import { MovieCrudApplication } from '../applications/movie-crud.application';
 import { MovieIndexApplication } from '../applications/movie-index.application';
 import { MovieIndexRequest } from '../request/movie-index.request';
-import { MovieMapper } from '../mappers/movie.mapper';
 import { MovieCreateRequest } from '../request/movie-create.request';
 import { MovieUpdateRequest } from '../request/movie-update.request';
 import { PermissionGuard } from '../../auth/guards/permission.guard';
@@ -45,13 +44,12 @@ export class MovieController {
     }
 
     @UseGuards(PermissionGuard(PERMISSION_BACKOFFICE_UPDATE_MOVIE))
-    @Put('edit/:id')
+    @Patch('edit/:id')
     async update(
         @Param('id') id: number,
         @Body() movieUpdateRequest: MovieUpdateRequest,
     ) {
         await this.movieCrudApplication.update(id, movieUpdateRequest);
-
         return this.inertiaAdapter.successResponse(
             'movies',
             `Success update movies with id ${id}`,
@@ -78,7 +76,7 @@ export class MovieController {
             component: 'Movies',
             props: {
                 ...props,
-                data: props.data.map((movie) => MovieMapper.fromEntity(movie)),
+                data: props.data,
             },
         });
     }

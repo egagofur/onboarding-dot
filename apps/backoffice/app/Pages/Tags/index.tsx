@@ -1,80 +1,54 @@
 import React, { useContext } from 'react';
 import { MainLayout } from '../../Layouts/MainLayout';
-import { DataTable } from '../../Components/organisms/DataTable';
-import { IMovie } from 'interface-models/movie/movie.interface';
+import { ITags } from 'interface-models/movie/tags.interface';
 import { IPaginationMeta } from 'apps/backoffice/src/common/interface/index.interface';
+import { AppContext } from '../../Contexts/App';
 import { ColumnsType } from 'antd/es/table';
+import { Button, Space } from 'antd';
+import { Route, route } from '../../Common/Route/Route';
+import { DataTable } from '../../Components/organisms/DataTable';
 import { useTableFilter } from '../../Utils/hooks';
 import { paginationTransform } from '../../Components/organisms/DataTable/DataTable';
 import { formatDate } from '../../Utils/utils';
-import { Button } from '../../Components/atoms/Button';
-import { Route, route } from '../../Common/Route/Route';
-import { Space, Tag } from 'antd';
-import { deleteMovie } from '../../Modules/Movie/Action';
-import { AppContext } from '../../Contexts/App';
 
 interface IProps {
-    data: IMovie[];
+    data: ITags[];
     meta: IPaginationMeta;
 }
 
 interface IFilters {
-    title: string;
+    name: string;
 }
 
 const IndexPage = (props: IProps) => {
     const { notifyNavigating } = useContext(AppContext);
+
     const {
         implementTableFilter,
         filters,
         status: { isFetching },
     } = useTableFilter<IFilters>();
 
-    const handleDeleteButton = async (id: number) => {
+    const handleDeleteButton = (id: number) => {
         try {
-            deleteMovie(id);
-            notifyNavigating();
-        } catch (error) {
-            console.log(error);
-        }
+        } catch (error) {}
     };
 
-    const colums: ColumnsType<IMovie> = [
+    const colums: ColumnsType<ITags> = [
         {
-            title: 'Title',
-            dataIndex: 'title',
-            align: 'center',
+            title: 'ID',
+            dataIndex: 'id',
         },
         {
-            title: 'Tags',
-            dataIndex: 'tags',
+            title: 'Name',
+            dataIndex: 'name',
             align: 'center',
-            render: (value, record) => {
-                const tags = record.tag.map((tag) => tag.name).join(', ');
-                return <Tag color="blue">{tags}</Tag>;
-            },
-        },
-        {
-            title: 'Overview',
-            dataIndex: 'overview',
-            align: 'center',
-        },
-        {
-            title: 'Release Date',
-            dataIndex: 'playUntil',
-            align: 'center',
-            render: (value: string) => formatDate(value),
         },
         {
             title: 'Created At',
             dataIndex: 'createdAt',
             align: 'center',
-            render: (value: string) => formatDate(value),
-        },
-        {
-            title: 'Poster',
-            dataIndex: 'poster',
-            align: 'center',
+            render: (value) => formatDate(value),
         },
         {
             title: 'Action',
@@ -82,7 +56,7 @@ const IndexPage = (props: IProps) => {
             align: 'center',
             render: (value, record) => (
                 <Space>
-                    <Button href={route(Route.MovieEdit, { id: record.id })}>
+                    <Button href={route(Route.TagsEdit, { id: record.id })}>
                         Edit
                     </Button>
                     <Button
@@ -98,10 +72,10 @@ const IndexPage = (props: IProps) => {
 
     return (
         <MainLayout
-            title="Movies CRUD"
+            title="CRUD Tags"
             topActions={
-                <Button href={Route.MovieCreate} size="middle" type="primary">
-                    New Movie
+                <Button href={Route.TagsCreate} size="middle" type="primary">
+                    New Tags
                 </Button>
             }
         >

@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsOptional, IsString } from 'class-validator';
+import { IsDate, IsNotEmpty, IsOptional, IsString } from 'class-validator';
 import { IMovieSchedule } from 'interface-models/movie/movie-schedule.interface';
 import { IMovieTags } from 'interface-models/movie/movie-tags.interface';
 
@@ -16,12 +16,12 @@ export class MovieUpdateRequest {
     poster?: string;
 
     @IsNotEmpty({ message: 'Field wajib diisi' })
-    @IsString()
+    @IsDate()
     playUntil: Date;
 
     @IsNotEmpty({ message: 'Field wajib diisi' })
     tags?: IMovieTags[];
 
-    @IsNotEmpty({ message: 'Field wajib diisi' })
+    @IsOptional()
     shedule?: IMovieSchedule[];
 }

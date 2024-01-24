@@ -17,12 +17,23 @@ export class MovieService {
     }
 
     async update(id: number, data: IMovie): Promise<IMovie> {
-        const status = await this.movieRepository.update({ id }, { ...data });
-        if (status.affected < 1) {
-            throw new QueryFailedError('Error, Data not changed', null, null);
-        }
+        try {
+            const status = await this.movieRepository.update(
+                { id },
+                { ...data },
+            );
+            if (status.affected < 1) {
+                throw new QueryFailedError(
+                    'Error, Data not changed',
+                    null,
+                    null,
+                );
+            }
 
-        return data;
+            return data;
+        } catch (error) {
+            console.log(error);
+        }
     }
 
     async delete(id: number): Promise<void> {
@@ -33,19 +44,28 @@ export class MovieService {
     }
 
     async findOneById(id: number): Promise<IMovie> {
-        try {
-            const movie = this.movieRepository.createQueryBuilder('movie');
-            movie.leftJoinAndSelect('movie.tag', 'tag');
-            const result = await movie.where('movie.id = :id', { id }).getOne();
-            console.log(result);
-            return result;
-        } catch (error) {
-            console.log(error);
-        }
+        const movie = this.movieRepository.createQueryBuilder('movie');
+        movie.leftJoinAndSelect('movie.tag', 'tag');
+        const results = await movie.where('movie.id = :id', { id }).getOne();
+        return results;
+    }
+
+    async findOneByIdAndTitle(
+        id: number,
+        title: string,
+    ): Promise<IMovie | null> {
+        const movie = this.movieRepository.createQueryBuilder('movie');
+        movie.leftJoinAndSelect('movie.tag', 'tag');
+        const results = await movie
+            .where('movie.id = :id', { id })
+            .andWhere('movie.title = :title', { title })
+            .getOne();
+
+        return results;
     }
 
     async findOneByTitle(title: string): Promise<IMovie> {
-        return await this.movieRepository.findOneOrFail({
+        return await this.movieRepository.findOne({
             where: {
                 title,
             },
@@ -71,6 +91,6 @@ export class MovieService {
             },
         });
 
-        return role != null;
+        return role ? true : false;
     }
 }

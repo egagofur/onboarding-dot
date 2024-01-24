@@ -58,6 +58,7 @@ import { StudioModule } from './modules/studio/studio.module';
 import { TagModule } from './modules/tag/tag.module';
 import { BullModule } from '@nestjs/bull';
 import { config } from './config';
+import { MovieTagModule } from './modules/movie-tag/movie-tag.module';
 
 @Module({
     imports: [
@@ -97,6 +98,7 @@ import { config } from './config';
                 password: config.redis.password,
             },
         }),
+        MovieTagModule,
     ],
     providers: [
         {

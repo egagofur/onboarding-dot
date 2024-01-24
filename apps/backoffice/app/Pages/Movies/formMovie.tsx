@@ -13,6 +13,7 @@ import dayjs from 'dayjs';
 import { createMovie, updateMovie } from '../../Modules/Movie/Action';
 import { AppContext } from '../../Contexts/App';
 import { Route } from '../../Common/Route/Route';
+import { Link } from '@inertiajs/inertia-react';
 
 interface IProps extends TInertiaProps {
     isEdit?: boolean;
@@ -26,7 +27,7 @@ const schema = yup.object().shape({
     poster: yup.string().required('Field poster is required'),
     playUntil: yup.string().required('Field play until is required'),
     shedule: yup.array().of(yup.number().required()),
-    tags: yup.string().required('Field tags is required'),
+    tags: yup.array().of(yup.number().required()),
 });
 
 const formMovie = (props: IProps) => {
@@ -64,12 +65,19 @@ const formMovie = (props: IProps) => {
             >
                 <FormContainer
                     errors={props.error}
-                    initialValues={props.isEdit && props.data}
                     form={form}
                     onFinish={onFinish}
                     layout="vertical"
+                    initialValues={
+                        props.isEdit && {
+                            ...props.data,
+                            tags: props.data.tag.map((tag) => tag.id),
+                        }
+                    }
                     buttonAction={[
-                        <Button href={Route.Movies}>Cancel</Button>,
+                        <Button>
+                            <Link href={Route.Movies}>Cancel</Link>
+                        </Button>,
                         <Button
                             type="primary"
                             htmlType="submit"
@@ -132,7 +140,10 @@ const formMovie = (props: IProps) => {
                                 required
                                 rules={[yupSync]}
                             >
-                                <Select placeholder="Select tag">
+                                <Select
+                                    placeholder="Select tag"
+                                    mode="multiple"
+                                >
                                     {props.tags.map((tag) => (
                                         <Select.Option
                                             key={tag.name}
