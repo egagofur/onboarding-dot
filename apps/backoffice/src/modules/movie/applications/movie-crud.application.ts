@@ -7,7 +7,6 @@ import { getManager } from 'typeorm';
 import { Tag } from 'entities/movie/tag.entity';
 import { MovieTags } from 'entities/movie/movie-tags.entity';
 import { MovieTagService } from '../../movie-tag/services/movie-tag.service';
-
 @Injectable()
 export class MovieCrudApplication {
     constructor(
@@ -15,7 +14,6 @@ export class MovieCrudApplication {
         private readonly movieTagsService: MovieTagService,
     ) {}
 
-    // TODO: Mapping Tags and views on index page
     async create(movieRequest: MovieCreateRequest): Promise<void> {
         const isMovieExist = await this.movieService.isMovieExistsByTitle(
             movieRequest.title,

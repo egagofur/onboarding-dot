@@ -91,6 +91,14 @@ export class MovieService {
             },
         });
 
-        return role ? true : false;
+        return !!role;
+    }
+
+    async findOneWithoutRelations(id: number): Promise<IMovie> {
+        return await this.movieRepository.findOne({
+            where: {
+                id,
+            },
+        });
     }
 }

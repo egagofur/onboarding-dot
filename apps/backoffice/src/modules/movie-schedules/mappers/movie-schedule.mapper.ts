@@ -1,6 +1,6 @@
 import { IMovieSchedule } from 'interface-models/movie/movie-schedule.interface';
 
-export class ScheduleMapper {
+export class MovieScheduleMapper {
     public static fromEntity = (movie: IMovieSchedule) => ({
         id: movie.id,
         movie: movie.movie,

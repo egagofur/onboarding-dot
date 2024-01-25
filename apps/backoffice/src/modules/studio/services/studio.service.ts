@@ -1,7 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Studio } from 'entities/movie/studio.entity';
-import { Repository } from 'typeorm';
+import { IStudio } from 'interface-models/movie/studio.interface';
+import { In, QueryFailedError, Repository } from 'typeorm';
 
 @Injectable()
 export class StudioService {
@@ -10,16 +11,68 @@ export class StudioService {
         private readonly movieRepository: Repository<Studio>,
     ) {}
 
-    async addStudio(addNewStudioDto) {
-        const newStudio = await this.movieRepository.create({
-            studioNumber: addNewStudioDto.studio_number,
-            seatCapacity: addNewStudioDto.seat_capacity,
-            createdAt: new Date(),
-            updatedAt: new Date(),
+    async create(data: IStudio): Promise<IStudio> {
+        const newStudio = this.movieRepository.create(data);
+        return await this.movieRepository.save(newStudio);
+    }
+
+    async update(id: number, data: IStudio): Promise<IStudio> {
+        try {
+            const status = await this.movieRepository.update(
+                { id },
+                { ...data },
+            );
+            if (status.affected < 1) {
+                throw new QueryFailedError(
+                    'Error, Data not changed',
+                    null,
+                    null,
+                );
+            }
+            return data;
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    async delete(id: number): Promise<void> {
+        const status = await this.movieRepository.delete({ id });
+        if (status.affected < 1) {
+            throw new QueryFailedError('Error, Data not changed', null, null);
+        }
+    }
+
+    async findOneById(id: number): Promise<IStudio> {
+        return await this.movieRepository.findOneOrFail({
+            where: { id },
         });
+    }
 
-        await this.movieRepository.save(newStudio);
+    async findOneByIdAndTitle(
+        id: number,
+        title: string,
+    ): Promise<IStudio | null> {
+        return await this.movieRepository.findOneOrFail({
+            where: { id, title },
+        });
+    }
 
-        return newStudio;
+    async findAll(): Promise<IStudio[]> {
+        return await this.movieRepository.find();
+    }
+
+    async findAllByIds(ids: number[]): Promise<IStudio[]> {
+        return await this.movieRepository.find({
+            where: { id: In(ids) },
+        });
+    }
+
+    async isStudioExist(studioNumber): Promise<boolean> {
+        const studio = await this.movieRepository.findOne({
+            where: {
+                studioNumber: studioNumber,
+            },
+        });
+        return !!studio;
     }
 }

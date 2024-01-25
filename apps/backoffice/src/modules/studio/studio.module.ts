@@ -5,10 +5,16 @@ import { Studio } from 'entities/movie/studio.entity';
 import { StudioController } from './controllers/studio.controller';
 import { StudioCrudApplication } from './applications/studio-crud.application';
 import { InertiaAdapter } from '../../infrastructure/inertia/adapter/inertia.adapter';
+import { StudioIndexApplication } from './applications/studio-index.application';
 
 @Module({
     imports: [TypeOrmModule.forFeature([Studio])],
-    providers: [StudioService, StudioCrudApplication, InertiaAdapter],
+    providers: [
+        StudioService,
+        StudioCrudApplication,
+        InertiaAdapter,
+        StudioIndexApplication,
+    ],
     controllers: [StudioController],
     exports: [StudioCrudApplication],
 })

@@ -1,6 +1,5 @@
 import React, { useContext } from 'react';
 import { MainLayout } from '../../Layouts/MainLayout';
-import { ITags } from 'interface-models/movie/tags.interface';
 import { IPaginationMeta } from 'apps/backoffice/src/common/interface/index.interface';
 import { AppContext } from '../../Contexts/App';
 import { ColumnsType } from 'antd/es/table';
@@ -10,13 +9,16 @@ import { DataTable } from '../../Components/organisms/DataTable';
 import { useTableFilter } from '../../Utils/hooks';
 import { paginationTransform } from '../../Components/organisms/DataTable/DataTable';
 import { formatDate } from '../../Utils/utils';
-import { deleteTags } from '../../Modules/Tags/Action';
 import { RowActionButtons } from '../../Components/molecules/RowActionButtons';
 import { useModal } from '../../Utils/modal';
+import { IMovieSchedule } from 'interface-models/movie/movie-schedule.interface';
+import { deleteMovieSchedule } from '../../Modules/Movie-Schedules/Action';
+import { Section } from '../../Components/molecules/Section';
 
 interface IProps {
-    data: ITags[];
+    data: IMovieSchedule[];
     meta: IPaginationMeta;
+    movieNowPlaying: IMovieSchedule[];
 }
 
 interface IFilters {
@@ -34,28 +36,46 @@ const IndexPage = (props: IProps) => {
 
     const handleDeleteButton = (id: number) => {
         try {
-            deleteTags(id);
+            deleteMovieSchedule(id);
             notifyNavigating();
         } catch (error) {
             console.log(error);
         }
     };
 
-    const colums: ColumnsType<ITags> = [
+    const colums: ColumnsType<IMovieSchedule> = [
         {
             title: 'ID',
             dataIndex: 'id',
         },
         {
-            title: 'Name',
-            dataIndex: 'name',
+            title: 'Start Time',
+            dataIndex: 'startTime',
+            align: 'center',
+            render: (value) => formatDate(value),
+        },
+        {
+            title: 'End Time',
+            dataIndex: 'endTime',
+            align: 'center',
+            render: (value) => formatDate(value),
+        },
+        {
+            title: 'Price',
+            dataIndex: 'price',
             align: 'center',
         },
         {
-            title: 'Created At',
-            dataIndex: 'createdAt',
+            title: 'Movie Name',
+            dataIndex: 'movie',
             align: 'center',
-            render: (value) => formatDate(value),
+            render: (value, record) => record?.movie?.title,
+        },
+        {
+            title: 'Studio Number',
+            dataIndex: 'date',
+            align: 'center',
+            render: (value, record) => record?.studios?.studioNumber,
         },
         {
             title: 'Action',
@@ -66,7 +86,9 @@ const IndexPage = (props: IProps) => {
                     actions={[
                         {
                             type: 'edit',
-                            href: route(Route.TagsEdit, { id: record.id }),
+                            href: route(Route.MovieSchedulesEdit, {
+                                id: record.id,
+                            }),
                         },
                         {
                             type: 'delete',
@@ -87,21 +109,34 @@ const IndexPage = (props: IProps) => {
 
     return (
         <MainLayout
-            title="CRUD Tags"
+            title="CRUD Movie Schedules"
             topActions={
-                <Button href={Route.TagsCreate} size="middle" type="primary">
-                    New Tags
+                <Button
+                    href={Route.MovieSchedulesCreate}
+                    size="middle"
+                    type="primary"
+                >
+                    New Schedule
                 </Button>
             }
         >
-            <DataTable
-                onChange={implementTableFilter}
-                search={filters.search}
-                pagination={paginationTransform(props.meta)}
-                loading={isFetching}
-                columns={colums}
-                dataSource={props.data}
-            />
+            <Section>
+                <DataTable
+                    onChange={implementTableFilter}
+                    search={filters.search}
+                    pagination={paginationTransform(props.meta)}
+                    loading={isFetching}
+                    columns={colums}
+                    dataSource={props.data}
+                />
+
+                <h4>Movie Schedules</h4>
+                <DataTable
+                    loading={isFetching}
+                    columns={colums}
+                    dataSource={props.movieNowPlaying}
+                />
+            </Section>
         </MainLayout>
     );
 };

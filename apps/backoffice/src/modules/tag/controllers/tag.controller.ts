@@ -1,4 +1,13 @@
-import { Body, Controller, Get, Param, Post, Put, Query } from '@nestjs/common';
+import {
+    Body,
+    Controller,
+    Delete,
+    Get,
+    Param,
+    Post,
+    Put,
+    Query,
+} from '@nestjs/common';
 import { InertiaAdapter } from 'apps/backoffice/src/infrastructure/inertia/adapter/inertia.adapter';
 import { TagCrudApplication } from '../applications/tag-crud.application';
 import { TagIndexApplication } from '../applications/tag-index.application';
@@ -62,6 +71,15 @@ export class TagController {
         return this.inertiaAdapter.successResponse(
             'tags',
             `Success update tags with id ${id}`,
+        );
+    }
+
+    @Delete('delete/:id')
+    async delete(@Param('id') id: number) {
+        await this.tagCrudApplication.delete(id);
+        return this.inertiaAdapter.successResponse(
+            'tags',
+            `Success delete tags with id ${id}`,
         );
     }
 }

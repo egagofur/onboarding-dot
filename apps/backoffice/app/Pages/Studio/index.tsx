@@ -1,6 +1,5 @@
 import React, { useContext } from 'react';
 import { MainLayout } from '../../Layouts/MainLayout';
-import { ITags } from 'interface-models/movie/tags.interface';
 import { IPaginationMeta } from 'apps/backoffice/src/common/interface/index.interface';
 import { AppContext } from '../../Contexts/App';
 import { ColumnsType } from 'antd/es/table';
@@ -9,18 +8,18 @@ import { Route, route } from '../../Common/Route/Route';
 import { DataTable } from '../../Components/organisms/DataTable';
 import { useTableFilter } from '../../Utils/hooks';
 import { paginationTransform } from '../../Components/organisms/DataTable/DataTable';
-import { formatDate } from '../../Utils/utils';
-import { deleteTags } from '../../Modules/Tags/Action';
+import { IStudio } from 'interface-models/movie/studio.interface';
+import { deleteStudio } from '../../Modules/Studio/Action';
 import { RowActionButtons } from '../../Components/molecules/RowActionButtons';
 import { useModal } from '../../Utils/modal';
 
 interface IProps {
-    data: ITags[];
+    data: IStudio[];
     meta: IPaginationMeta;
 }
 
 interface IFilters {
-    name: string;
+    studioNumber: string;
 }
 
 const IndexPage = (props: IProps) => {
@@ -34,28 +33,27 @@ const IndexPage = (props: IProps) => {
 
     const handleDeleteButton = (id: number) => {
         try {
-            deleteTags(id);
+            deleteStudio(id);
             notifyNavigating();
         } catch (error) {
             console.log(error);
         }
     };
 
-    const colums: ColumnsType<ITags> = [
+    const colums: ColumnsType<IStudio> = [
         {
             title: 'ID',
             dataIndex: 'id',
         },
         {
-            title: 'Name',
-            dataIndex: 'name',
+            title: 'Studio Number',
+            dataIndex: 'studioNumber',
             align: 'center',
         },
         {
-            title: 'Created At',
-            dataIndex: 'createdAt',
+            title: 'Studio Capacity',
+            dataIndex: 'seatCapacity',
             align: 'center',
-            render: (value) => formatDate(value),
         },
         {
             title: 'Action',
@@ -66,7 +64,7 @@ const IndexPage = (props: IProps) => {
                     actions={[
                         {
                             type: 'edit',
-                            href: route(Route.TagsEdit, { id: record.id }),
+                            href: route(Route.StudiosEdit, { id: record.id }),
                         },
                         {
                             type: 'delete',
@@ -87,10 +85,10 @@ const IndexPage = (props: IProps) => {
 
     return (
         <MainLayout
-            title="CRUD Tags"
+            title="CRUD Studio"
             topActions={
-                <Button href={Route.TagsCreate} size="middle" type="primary">
-                    New Tags
+                <Button href={Route.StudiosCreate} size="middle" type="primary">
+                    New Studio
                 </Button>
             }
         >

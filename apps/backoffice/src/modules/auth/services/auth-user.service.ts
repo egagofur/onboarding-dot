@@ -26,7 +26,7 @@ export class AuthUserService {
     async isUserExistsByEmail(email: string): Promise<boolean> {
         const user = await this.findOneByEmail(email);
 
-        return user ? true : false;
+        return !!user;
     }
 
     async createUser(data: IUser): Promise<IUser> {

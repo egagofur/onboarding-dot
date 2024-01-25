@@ -59,6 +59,7 @@ import { TagModule } from './modules/tag/tag.module';
 import { BullModule } from '@nestjs/bull';
 import { config } from './config';
 import { MovieTagModule } from './modules/movie-tag/movie-tag.module';
+import { MovieScheduleModule } from './modules/movie-schedules/movie-schedule.module';
 
 @Module({
     imports: [
@@ -89,7 +90,7 @@ import { MovieTagModule } from './modules/movie-tag/movie-tag.module';
         ProfileModule,
         MovieModule,
         StudioModule,
-        ScheduleModule,
+        MovieScheduleModule,
         TagModule,
         BullModule.forRoot({
             redis: {

@@ -9,9 +9,11 @@ import { paginationTransform } from '../../Components/organisms/DataTable/DataTa
 import { formatDate } from '../../Utils/utils';
 import { Button } from '../../Components/atoms/Button';
 import { Route, route } from '../../Common/Route/Route';
-import { Space, Tag } from 'antd';
+import { Tag } from 'antd';
 import { deleteMovie } from '../../Modules/Movie/Action';
 import { AppContext } from '../../Contexts/App';
+import { RowActionButtons } from '../../Components/molecules/RowActionButtons';
+import { useModal } from '../../Utils/modal';
 
 interface IProps {
     data: IMovie[];
@@ -80,18 +82,27 @@ const IndexPage = (props: IProps) => {
             title: 'Action',
             dataIndex: 'id',
             align: 'center',
+            width: '142px',
             render: (value, record) => (
-                <Space>
-                    <Button href={route(Route.MovieEdit, { id: record.id })}>
-                        Edit
-                    </Button>
-                    <Button
-                        onClick={() => handleDeleteButton(record.id)}
-                        type="primary"
-                    >
-                        Delete
-                    </Button>
-                </Space>
+                <RowActionButtons
+                    actions={[
+                        {
+                            type: 'edit',
+                            href: route(Route.MovieEdit, { id: record.id }),
+                        },
+                        {
+                            type: 'delete',
+                            onClick: () => {
+                                useModal({
+                                    title: 'Are You Sure? ',
+                                    type: 'confirm',
+                                    variant: 'danger',
+                                    onOk: () => handleDeleteButton(record.id),
+                                });
+                            },
+                        },
+                    ]}
+                />
             ),
         },
     ];

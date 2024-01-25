@@ -75,4 +75,16 @@ export enum Route {
     TagsEdit = '/tags/edit/:id',
     TagsCreate = '/tags/create',
     TagsDelete = '/tags/delete/:id',
+
+    Studios = '/studios',
+    StudiosDetail = '/studios/:id',
+    StudiosEdit = '/studios/edit/:id',
+    StudiosCreate = '/studios/create',
+    StudiosDelete = '/studios/delete/:id',
+
+    MovieSchedules = '/movie-schedules',
+    MovieSchedulesDetail = '/movie-schedules/:id',
+    MovieSchedulesEdit = '/movie-schedules/edit/:id',
+    MovieSchedulesCreate = '/movie-schedules/create',
+    MovieSchedulesDelete = '/movie-schedules/delete/:id',
 }

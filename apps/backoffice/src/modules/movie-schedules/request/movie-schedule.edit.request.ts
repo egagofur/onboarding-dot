@@ -1,6 +1,6 @@
 import { IsInt, IsString } from 'class-validator';
 
-export class ScheduleEditRequest {
+export class MovieScheduleEditRequest {
     @IsInt()
     movie_id: number;
 

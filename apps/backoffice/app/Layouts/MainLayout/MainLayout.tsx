@@ -132,6 +132,16 @@ const menuItems: MenuItem[] = [
         icon: <BarsOutlined />,
     },
     {
+        key: Route.Studios,
+        label: <Link href={Route.Studios}>Studios</Link>,
+        icon: <BarsOutlined />,
+    },
+    {
+        key: Route.MovieSchedules,
+        label: <Link href={Route.MovieSchedules}>Movie Schedule</Link>,
+        icon: <BarsOutlined />,
+    },
+    {
         key: Route.LogActivity,
         label: <Link href={Route.LogActivity}>Log Activity</Link>,
         icon: <HistoryOutlined />,
