@@ -21,3 +21,7 @@ export const createMovie = (data: any) => {
 export const deleteMovie = (id: number) => {
     Inertia.delete(route(Route.MovieDelete, { id: id }));
 };
+
+export const uploadFile = (data: string) => {
+    Inertia.post(Route.UploadPhoto, { data });
+};

@@ -55,7 +55,7 @@ export class MovieScheduleService {
         });
     }
 
-    @Cron(CronExpression.EVERY_10_SECONDS)
+    @Cron(CronExpression.EVERY_5_SECONDS)
     async getNowPlaying(): Promise<MovieSchedule[]> {
         console.log('Running cron job');
 

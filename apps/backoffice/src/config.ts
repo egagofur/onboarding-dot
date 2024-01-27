@@ -66,6 +66,18 @@ export const config = {
         },
     },
 
+    upload: {
+        image: {
+            maxSize: {
+                inMb: +process.env.MAX_SIZE_IMAGE_UPLOAD_IN_MB || 7,
+            },
+            compressed: {
+                quality: 0.8,
+                width: 800,
+            },
+        },
+    },
+
     amqp: {
         conn: null,
         url: process.env.AMQP_URL,

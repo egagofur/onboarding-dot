@@ -7,7 +7,9 @@ import {
     Patch,
     Post,
     Query,
+    UploadedFile,
     UseGuards,
+    UseInterceptors,
 } from '@nestjs/common';
 import { InertiaAdapter } from 'apps/backoffice/src/infrastructure/inertia/adapter/inertia.adapter';
 import { MovieCrudApplication } from '../applications/movie-crud.application';
@@ -23,6 +25,7 @@ import {
     PERMISSION_BACKOFFICE_UPDATE_MOVIE,
 } from 'constants/permission.constant';
 import { TagCrudApplication } from '../../tag/applications/tag-crud.application';
+import { FileInterceptor } from '@nestjs/platform-express';
 
 @Controller('movies')
 export class MovieController {
@@ -32,6 +35,24 @@ export class MovieController {
         private readonly movieIndexApplication: MovieIndexApplication,
         private readonly tagCrudApplication: TagCrudApplication,
     ) {}
+
+    @Post('upload-photo')
+    @UseInterceptors(FileInterceptor('file'))
+    async uploadFile(@UploadedFile() file: Express.Multer.File): Promise<any> {
+        try {
+            const fileUrl = await this.movieCrudApplication.uploadGeneral(file);
+
+            return {
+                data: {
+                    fileUrl,
+                },
+                message: 'Success Upload',
+                meta: null,
+            };
+        } catch (error) {
+            console.log(error);
+        }
+    }
 
     @UseGuards(PermissionGuard(PERMISSION_BACKOFFICE_CREATE_MOVIE))
     @Post('create')
@@ -107,6 +128,13 @@ export class MovieController {
                 tags,
                 isEdit: true,
             },
+        });
+    }
+
+    @Get('upload-photo')
+    async uploadPhotoPage(): Promise<void> {
+        return this.inertiaAdapter.render({
+            component: 'Movies/uploadPhoto',
         });
     }
 }

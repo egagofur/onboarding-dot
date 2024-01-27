@@ -142,6 +142,11 @@ const menuItems: MenuItem[] = [
         icon: <BarsOutlined />,
     },
     {
+        key: Route.UploadPhoto,
+        label: <Link href={Route.UploadPhoto}>File Upload</Link>,
+        icon: <BarsOutlined />,
+    },
+    {
         key: Route.LogActivity,
         label: <Link href={Route.LogActivity}>Log Activity</Link>,
         icon: <HistoryOutlined />,

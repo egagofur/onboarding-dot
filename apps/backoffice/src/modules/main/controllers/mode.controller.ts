@@ -1,6 +1,5 @@
 import { Controller, Get, Query } from '@nestjs/common';
 
-
 import { InertiaAdapter } from 'apps/backoffice/src/infrastructure/inertia/adapter/inertia.adapter';
 import { IPauseMode } from 'interface-models/mode/pause-mode.interface';
 

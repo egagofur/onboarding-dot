@@ -9,7 +9,7 @@ import { paginationTransform } from '../../Components/organisms/DataTable/DataTa
 import { formatDate } from '../../Utils/utils';
 import { Button } from '../../Components/atoms/Button';
 import { Route, route } from '../../Common/Route/Route';
-import { Tag } from 'antd';
+import { Space, Tag } from 'antd';
 import { deleteMovie } from '../../Modules/Movie/Action';
 import { AppContext } from '../../Contexts/App';
 import { RowActionButtons } from '../../Components/molecules/RowActionButtons';
@@ -111,9 +111,22 @@ const IndexPage = (props: IProps) => {
         <MainLayout
             title="Movies CRUD"
             topActions={
-                <Button href={Route.MovieCreate} size="middle" type="primary">
-                    New Movie
-                </Button>
+                <Space>
+                    <Button
+                        href={Route.UploadPhoto}
+                        size="middle"
+                        type="primary"
+                    >
+                        Upload File
+                    </Button>
+                    <Button
+                        href={Route.MovieCreate}
+                        size="middle"
+                        type="primary"
+                    >
+                        New Movie
+                    </Button>
+                </Space>
             }
         >
             <DataTable

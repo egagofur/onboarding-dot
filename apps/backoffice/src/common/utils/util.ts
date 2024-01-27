@@ -129,21 +129,21 @@ export class Utils {
                     throw new InternalServerErrorException('Error upload');
                 }
 
-                return '';
             default:
                 const fileDestRelativePath =
                     path.resolve('./') +
-                    '/dist/' +
-                    config.assets.public +
+                    '/apps/backoffice/public' +
+                    '/' +
                     fileDestPath;
                 fs.rename(
-                    fileOriginalRelativePath,
+                    fileOriginalRelativePath.toString(),
                     fileDestRelativePath,
                     function (err) {
                         if (err) {
                             console.log(
                                 'Successfully not renamed - AKA moved!',
                             );
+                            console.log(err);
                         }
                     },
                 );
@@ -153,7 +153,7 @@ export class Utils {
     }
 
     static pathToUrl(path: string): string {
-        return config.host + ('/' + path).replace(/\/\//g, '/');
+        return config.host + ('/public/' + path).replace(/\/\//g, '/');
     }
 
     /**

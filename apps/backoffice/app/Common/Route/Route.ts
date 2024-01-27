@@ -69,6 +69,7 @@ export enum Route {
     MovieCreate = '/movies/create',
     MovieEdit = '/movies/edit/:id',
     MovieDelete = '/movies/delete/:id',
+    UploadPhoto = '/movies/upload-photo',
 
     Tags = '/tags',
     TagsDetail = '/tags/:id',

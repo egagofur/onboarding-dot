@@ -13,6 +13,13 @@ import { MovieIndexApplication } from './applications/movie-index.application';
 import { TagService } from '../tag/services/tag.service';
 import { TagCrudApplication } from '../tag/applications/tag-crud.application';
 import { MovieTagService } from '../movie-tag/services/movie-tag.service';
+import { BullModule } from '@nestjs/bull';
+import { MovieScheduleService } from '../movie-schedules/services/movie-schedule.services';
+import { MulterModule } from '@nestjs/platform-express';
+import { config } from '../../config';
+import path from 'path';
+import { FileUploadProcessor } from './applications/movie.processor';
+import { ImageUploadService } from '../auth/services/image-upload.services';
 
 @Module({
     imports: [
@@ -23,6 +30,16 @@ import { MovieTagService } from '../movie-tag/services/movie-tag.service';
             Studio,
             MovieSchedule,
         ]),
+        BullModule.registerQueue({
+            name: 'image-upload-queue',
+            limiter: {
+                max: 1000,
+                duration: 1000,
+            },
+        }),
+        MulterModule.register({
+            dest: path.resolve('./') + '/dist/' + config.assets.temp,
+        }),
     ],
     providers: [
         MovieService,
@@ -32,6 +49,9 @@ import { MovieTagService } from '../movie-tag/services/movie-tag.service';
         TagService,
         TagCrudApplication,
         MovieTagService,
+        MovieScheduleService,
+        FileUploadProcessor,
+        ImageUploadService,
     ],
     controllers: [MovieController],
     exports: [MovieCrudApplication],
