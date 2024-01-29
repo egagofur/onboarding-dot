@@ -7,6 +7,28 @@ export const PERMISSION_BACKOFFICE_UPDATE_MOVIE = 'backoffice-update-movie';
 export const PERMISSION_BACKOFFICE_CREATE_MOVIE = 'backoffice-create-movie';
 export const PERMISSION_BACKOFFICE_DELETE_MOVIE = 'backoffice-delete-movie';
 
+export const PERMISSION_BACKOFFICE_SHOW_TAGS = 'backoffice-show-tags';
+export const PERMISSION_BACKOFFICE_DETAIL_TAGS = 'backoffice-detail-tags';
+export const PERMISSION_BACKOFFICE_UPDATE_TAGS = 'backoffice-update-tags';
+export const PERMISSION_BACKOFFICE_CREATE_TAGS = 'backoffice-create-tags';
+export const PERMISSION_BACKOFFICE_DELETE_TAGS = 'backoffice-delete-tags';
+
+export const PERMISSION_BACKOFFICE_SHOW_STUDIO = 'backoffice-show-studio';
+export const PERMISSION_BACKOFFICE_DETAIL_STUDIO = 'backoffice-detail-studio';
+export const PERMISSION_BACKOFFICE_UPDATE_STUDIO = 'backoffice-update-studio';
+export const PERMISSION_BACKOFFICE_CREATE_STUDIO = 'backoffice-create-studio';
+export const PERMISSION_BACKOFFICE_DELETE_STUDIO = 'backoffice-delete-studio';
+
+export const PERMISSION_BACKOFFICE_SHOW_SCHEDULE = 'backoffice-show-schedule';
+export const PERMISSION_BACKOFFICE_DETAIL_SCHEDULE =
+    'backoffice-detail-schedule';
+export const PERMISSION_BACKOFFICE_UPDATE_SCHEDULE =
+    'backoffice-update-schedule';
+export const PERMISSION_BACKOFFICE_CREATE_SCHEDULE =
+    'backoffice-create-schedule';
+export const PERMISSION_BACKOFFICE_DELETE_SCHEDULE =
+    'backoffice-delete-schedule';
+
 export const PERMISSION_BACKOFFICE_SHOW_CONFIG = 'backoffice-show-config';
 export const PERMISSION_BACKOFFICE_DETAIL_CONFIG = 'backoffice-detail-config';
 export const PERMISSION_BACKOFFICE_UPDATE_CONFIG = 'backoffice-update-config';

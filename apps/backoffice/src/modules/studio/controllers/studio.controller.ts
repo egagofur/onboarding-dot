@@ -7,6 +7,7 @@ import {
     Post,
     Put,
     Query,
+    UseGuards,
 } from '@nestjs/common';
 import { InertiaAdapter } from 'apps/backoffice/src/infrastructure/inertia/adapter/inertia.adapter';
 import { StudioIndexRequest } from '../request/studio-index.request';
@@ -14,6 +15,13 @@ import { StudioMapper } from '../mappers/studio.mapper';
 import { StudioIndexApplication } from '../applications/studio-index.application';
 import { StudioCrudApplication } from '../applications/studio-crud.application';
 import { IStudio } from 'interface-models/movie/studio.interface';
+import { PermissionGuard } from '../../auth/guards/permission.guard';
+import {
+    PERMISSION_BACKOFFICE_CREATE_STUDIO,
+    PERMISSION_BACKOFFICE_DELETE_STUDIO,
+    PERMISSION_BACKOFFICE_SHOW_STUDIO,
+    PERMISSION_BACKOFFICE_UPDATE_STUDIO,
+} from 'constants/permission.constant';
 
 @Controller('studios')
 export class StudioController {
@@ -23,6 +31,7 @@ export class StudioController {
         private readonly studioCrudApplication: StudioCrudApplication,
     ) {}
 
+    @UseGuards(PermissionGuard(PERMISSION_BACKOFFICE_SHOW_STUDIO))
     @Get()
     async indexPage(@Query() request: StudioIndexRequest) {
         const props = await this.studioIndexApplication.fetch(request);
@@ -38,6 +47,7 @@ export class StudioController {
         });
     }
 
+    @UseGuards(PermissionGuard(PERMISSION_BACKOFFICE_CREATE_STUDIO))
     @Get('create')
     async createPage() {
         return this.inertiaAdapter.render({
@@ -45,6 +55,7 @@ export class StudioController {
         });
     }
 
+    @UseGuards(PermissionGuard(PERMISSION_BACKOFFICE_UPDATE_STUDIO))
     @Get('edit/:id')
     async editPage(@Param('id') id: number) {
         const data = await this.studioCrudApplication.findOneById(id);
@@ -59,18 +70,7 @@ export class StudioController {
         });
     }
 
-    @Get(':id')
-    async detailPage(@Param('id') id: number) {
-        const data = await this.studioCrudApplication.findOneById(id);
-
-        return this.inertiaAdapter.render({
-            component: 'Studio/detailStudio',
-            props: {
-                data: StudioMapper.fromEntity(data),
-            },
-        });
-    }
-
+    @UseGuards(PermissionGuard(PERMISSION_BACKOFFICE_CREATE_STUDIO))
     @Post('create')
     async store(@Body() data: IStudio) {
         await this.studioCrudApplication.create(data);
@@ -81,6 +81,7 @@ export class StudioController {
         );
     }
 
+    @UseGuards(PermissionGuard(PERMISSION_BACKOFFICE_UPDATE_STUDIO))
     @Put('edit/:id')
     async update(@Param('id') id: number, @Body() data: IStudio) {
         await this.studioCrudApplication.update(id, data);
@@ -91,6 +92,7 @@ export class StudioController {
         );
     }
 
+    @UseGuards(PermissionGuard(PERMISSION_BACKOFFICE_DELETE_STUDIO))
     @Delete('delete/:id')
     async delete(@Param('id') id: number) {
         await this.studioCrudApplication.delete(id);

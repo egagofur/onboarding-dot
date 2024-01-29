@@ -55,10 +55,9 @@ export class MovieScheduleService {
         });
     }
 
-    @Cron(CronExpression.EVERY_5_SECONDS)
+    @Cron(CronExpression.EVERY_10_SECONDS)
     async getNowPlaying(): Promise<MovieSchedule[]> {
-        console.log('Running cron job');
-
+        console.log('Cron running every 5 seconds');
         return this.scheduleRepository.find({
             where: {
                 startTime: new Date(),

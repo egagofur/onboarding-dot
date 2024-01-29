@@ -153,7 +153,7 @@ export class Utils {
     }
 
     static pathToUrl(path: string): string {
-        return config.host + ('/public/' + path).replace(/\/\//g, '/');
+        return config.host + ('/' + path).replace(/\/\//g, '/');
     }
 
     /**

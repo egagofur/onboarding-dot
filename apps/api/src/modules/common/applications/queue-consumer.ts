@@ -17,7 +17,6 @@ export class FileUploadProcessor {
             compressedFilePath.split('/')[
                 compressedFilePath.split('/').length - 1
             ];
-
         const destPath = 'uploads/' + fileName;
         const nameFile = await Utils.moveFile(compressedFilePath, destPath);
         console.log('[ Queue doUpload executed ] - Sucess ', nameFile);
