@@ -5,6 +5,7 @@ import {
     Module,
     NestModule,
     RequestMethod,
+    forwardRef,
 } from '@nestjs/common';
 import { InertiaSharePropsMiddleware } from './infrastructure/inertia/middlewares/inertia-share-props.middleware';
 import { APP_FILTER, APP_PIPE, APP_INTERCEPTOR } from '@nestjs/core';
@@ -90,7 +91,6 @@ import { MovieScheduleModule } from './modules/movie-schedules/movie-schedule.mo
         ProfileModule,
         MovieModule,
         StudioModule,
-        MovieScheduleModule,
         TagModule,
         BullModule.forRoot({
             redis: {
@@ -100,6 +100,7 @@ import { MovieScheduleModule } from './modules/movie-schedules/movie-schedule.mo
             },
         }),
         MovieTagModule,
+        forwardRef(() => MovieScheduleModule),
     ],
     providers: [
         {

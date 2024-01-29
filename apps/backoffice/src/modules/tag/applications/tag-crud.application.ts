@@ -41,7 +41,7 @@ export class TagCrudApplication {
     }
 
     async delete(id: number): Promise<void> {
-        await this.tagService.delete(id);
+        return await this.tagService.delete(id);
     }
 
     async findAllById(ids: number[]): Promise<ITags[]> {

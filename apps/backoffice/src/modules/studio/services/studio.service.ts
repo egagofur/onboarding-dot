@@ -17,22 +17,11 @@ export class StudioService {
     }
 
     async update(id: number, data: IStudio): Promise<IStudio> {
-        try {
-            const status = await this.movieRepository.update(
-                { id },
-                { ...data },
-            );
-            if (status.affected < 1) {
-                throw new QueryFailedError(
-                    'Error, Data not changed',
-                    null,
-                    null,
-                );
-            }
-            return data;
-        } catch (error) {
-            console.log(error);
+        const status = await this.movieRepository.update({ id }, { ...data });
+        if (status.affected < 1) {
+            throw new QueryFailedError('Error, Data not changed', null, null);
         }
+        return data;
     }
 
     async delete(id: number): Promise<void> {

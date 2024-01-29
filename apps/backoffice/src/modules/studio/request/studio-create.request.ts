@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsNumber, IsOptional } from 'class-validator';
+import { IsNotEmpty, IsNumber, IsOptional, Min } from 'class-validator';
 
 export class StudioCreateRequest {
     @IsNotEmpty({
@@ -11,6 +11,7 @@ export class StudioCreateRequest {
         message: 'Field wajib diisi',
     })
     @IsNumber()
+    @Min(1)
     seatCapacity: number;
 
     @IsNumber()

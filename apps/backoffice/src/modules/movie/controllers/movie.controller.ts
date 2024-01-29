@@ -3,7 +3,6 @@ import {
     Controller,
     Delete,
     Get,
-    Logger,
     Param,
     Patch,
     Post,
@@ -27,6 +26,7 @@ import {
 } from 'constants/permission.constant';
 import { TagCrudApplication } from '../../tag/applications/tag-crud.application';
 import { FileInterceptor } from '@nestjs/platform-express';
+import { Utils } from 'apps/backoffice/src/common/utils/util';
 
 @Controller('movies')
 export class MovieController {
@@ -38,21 +38,21 @@ export class MovieController {
     ) {}
 
     @Post('upload-photo')
-    @UseInterceptors(FileInterceptor('file'))
+    @UseInterceptors(
+        FileInterceptor('file', {
+            fileFilter: Utils.fileFilter,
+        }),
+    )
     async uploadFile(@UploadedFile() file: Express.Multer.File): Promise<any> {
-        try {
-            const fileUrl = await this.movieCrudApplication.uploadGeneral(file);
+        const fileUrl = await this.movieCrudApplication.uploadGeneral(file);
 
-            return {
-                data: {
-                    fileUrl,
-                },
-                message: 'Success Upload',
-                meta: null,
-            };
-        } catch (error) {
-            return Logger.error(error, 'MovieController');
-        }
+        return {
+            data: {
+                fileUrl,
+            },
+            message: 'Success Upload',
+            meta: null,
+        };
     }
 
     @UseGuards(PermissionGuard(PERMISSION_BACKOFFICE_CREATE_MOVIE))

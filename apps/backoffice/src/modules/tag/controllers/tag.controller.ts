@@ -55,7 +55,7 @@ export class TagController {
 
     @UseGuards(PermissionGuard(PERMISSION_BACKOFFICE_UPDATE_TAGS))
     @Get('edit/:id')
-    async edit(@Param('id') id: number) {
+    async edit(@Param('id') id: number): Promise<void> {
         const data = await this.tagCrudApplication.findOneById(id);
         return this.inertiaAdapter.render({
             component: 'Tags/formTags',
@@ -69,7 +69,7 @@ export class TagController {
 
     @UseGuards(PermissionGuard(PERMISSION_BACKOFFICE_CREATE_TAGS))
     @Post('create')
-    async store(@Body() data: ITags) {
+    async store(@Body() data: ITags): Promise<void> {
         await this.tagCrudApplication.create(data);
         return this.inertiaAdapter.successResponse(
             'tags',
@@ -79,7 +79,7 @@ export class TagController {
 
     @UseGuards(PermissionGuard(PERMISSION_BACKOFFICE_UPDATE_TAGS))
     @Put('edit/:id')
-    async update(@Param('id') id: number, @Body() data: ITags) {
+    async update(@Param('id') id: number, @Body() data: ITags): Promise<void> {
         await this.tagCrudApplication.update(id, data);
         return this.inertiaAdapter.successResponse(
             'tags',
@@ -89,7 +89,7 @@ export class TagController {
 
     @UseGuards(PermissionGuard(PERMISSION_BACKOFFICE_DELETE_TAGS))
     @Delete('delete/:id')
-    async delete(@Param('id') id: number) {
+    async delete(@Param('id') id: number): Promise<void> {
         await this.tagCrudApplication.delete(id);
         return this.inertiaAdapter.successResponse(
             'tags',

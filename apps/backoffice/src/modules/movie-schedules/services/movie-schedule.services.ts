@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { Cron, CronExpression } from '@nestjs/schedule';
 import { InjectRepository } from '@nestjs/typeorm';
 import { MovieSchedule } from 'entities/movie/movie-schedule.entity';
@@ -55,9 +55,9 @@ export class MovieScheduleService {
         });
     }
 
-    @Cron(CronExpression.EVERY_10_SECONDS)
+    @Cron(CronExpression.EVERY_10_MINUTES)
     async getNowPlaying(): Promise<MovieSchedule[]> {
-        console.log('Cron running every 5 seconds');
+        Logger.log('Cron running every 10 minutes', 'MovieScheduleService');
         return this.scheduleRepository.find({
             where: {
                 startTime: new Date(),

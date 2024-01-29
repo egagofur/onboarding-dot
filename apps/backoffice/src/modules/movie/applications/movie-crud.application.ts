@@ -72,7 +72,7 @@ export class MovieCrudApplication {
             movieTags.push(movieTag);
         });
 
-        this.movieTagsService.bulkSave(movieTags);
+        await this.movieTagsService.bulkSave(movieTags);
     }
 
     async update(id: number, movieRequest: MovieUpdateRequest): Promise<void> {
@@ -118,22 +118,18 @@ export class MovieCrudApplication {
     }
 
     async findById(id: number): Promise<IMovie> {
-        const results = await this.movieService.findOneById(id);
-        return results;
+        return await this.movieService.findOneById(id);
     }
 
     async findAll(): Promise<IMovie[]> {
-        const results = await this.movieService.findAll();
-        return results;
+        return await this.movieService.findAll();
     }
 
     async findAllById(ids: number[]): Promise<IMovie[]> {
-        const results = await this.movieService.findAllById(ids);
-        return results;
+        return await this.movieService.findAllById(ids);
     }
 
     async findOneByTitle(title: string): Promise<IMovie> {
-        const results = await this.movieService.findOneByTitle(title);
-        return results;
+        return await this.movieService.findOneByTitle(title);
     }
 }

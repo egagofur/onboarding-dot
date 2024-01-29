@@ -11,17 +11,17 @@ export class TagService {
         private readonly tagsRepository: Repository<Tag>,
     ) {}
 
-    async findAll(): Promise<any[]> {
+    async findAll(): Promise<ITags[]> {
         return await this.tagsRepository.find();
     }
 
-    async findOneById(id: number): Promise<any> {
+    async findOneById(id: number): Promise<ITags> {
         return await this.tagsRepository.findOneOrFail({
             where: { id },
         });
     }
 
-    async findOneByName(name: string): Promise<any> {
+    async findOneByName(name: string): Promise<ITags> {
         return await this.tagsRepository.findOneOrFail({
             where: {
                 name,
@@ -29,12 +29,12 @@ export class TagService {
         });
     }
 
-    async create(data: ITags): Promise<any> {
+    async create(data: ITags): Promise<ITags> {
         const newTags = this.tagsRepository.create(data);
         return await this.tagsRepository.save(newTags);
     }
 
-    async update(id: number, data: ITags): Promise<any> {
+    async update(id: number, data: ITags): Promise<ITags> {
         const status = await this.tagsRepository.update({ id }, { ...data });
         if (status.affected < 1) {
             throw new QueryFailedError('Error, Data not changed', null, null);
@@ -57,7 +57,7 @@ export class TagService {
         return tag !== null;
     }
 
-    async findAllById(ids: number[]): Promise<any[]> {
+    async findAllById(ids: number[]): Promise<ITags[]> {
         return await this.tagsRepository.find({
             where: {
                 id: ids,

@@ -1,10 +1,40 @@
-import { Process, Processor } from '@nestjs/bull';
+import {
+    OnQueueActive,
+    OnQueueCompleted,
+    OnQueueError,
+    Process,
+    Processor,
+} from '@nestjs/bull';
 import { Job } from 'bull';
 import { Utils } from 'apps/backoffice/src/common/utils/util';
 import { Logger } from '@nestjs/common';
 
 @Processor('image-upload-queue')
 export class FileUploadProcessor {
+    @OnQueueActive()
+    onActive(job: Job) {
+        Logger.log(
+            `Processing job ${job.id} of type ${job.name}.`,
+            'FileUploadProcessor',
+        );
+    }
+
+    @OnQueueError()
+    onError(error: Error) {
+        Logger.error(
+            `Error processing job: ${error.message}`,
+            'FileUploadProcessor',
+        );
+    }
+
+    @OnQueueCompleted()
+    onCompleted(job: Job) {
+        Logger.log(
+            `Completed job ${job.id} of type ${job.name}.`,
+            'FileUploadProcessor',
+        );
+    }
+
     @Process('upload-file')
     async processUpload(job: Job): Promise<void> {
         try {

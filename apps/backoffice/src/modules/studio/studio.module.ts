@@ -16,6 +16,6 @@ import { StudioIndexApplication } from './applications/studio-index.application'
         StudioIndexApplication,
     ],
     controllers: [StudioController],
-    exports: [StudioCrudApplication],
+    exports: [StudioCrudApplication, StudioService],
 })
 export class StudioModule {}

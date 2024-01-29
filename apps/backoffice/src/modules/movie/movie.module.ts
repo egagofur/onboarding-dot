@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { Module, forwardRef } from '@nestjs/common';
 import { MovieService } from './services/movie.service';
 import { MovieController } from './controllers/movie.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -13,7 +13,7 @@ import path from 'path';
 import { MovieTagModule } from '../movie-tag/movie-tag.module';
 import { MovieScheduleModule } from '../movie-schedules/movie-schedule.module';
 import { TagModule } from '../tag/tag.module';
-import { FileUploadProcessor } from './applications/movie.processor';
+import { FileUploadProcessor } from './processors/movie.processor';
 
 @Module({
     imports: [
@@ -25,7 +25,7 @@ import { FileUploadProcessor } from './applications/movie.processor';
             dest: path.resolve('./') + '/dist/' + config.assets.temp,
         }),
         MovieTagModule,
-        MovieScheduleModule,
+        forwardRef(() => MovieScheduleModule),
         TagModule,
     ],
     providers: [
@@ -36,6 +36,6 @@ import { FileUploadProcessor } from './applications/movie.processor';
         FileUploadProcessor,
     ],
     controllers: [MovieController],
-    exports: [MovieCrudApplication],
+    exports: [MovieCrudApplication, MovieService],
 })
 export class MovieModule {}

@@ -33,7 +33,7 @@ export class StudioController {
 
     @UseGuards(PermissionGuard(PERMISSION_BACKOFFICE_SHOW_STUDIO))
     @Get()
-    async indexPage(@Query() request: StudioIndexRequest) {
+    async indexPage(@Query() request: StudioIndexRequest): Promise<void> {
         const props = await this.studioIndexApplication.fetch(request);
 
         return this.inertiaAdapter.render({
@@ -49,7 +49,7 @@ export class StudioController {
 
     @UseGuards(PermissionGuard(PERMISSION_BACKOFFICE_CREATE_STUDIO))
     @Get('create')
-    async createPage() {
+    async createPage(): Promise<void> {
         return this.inertiaAdapter.render({
             component: 'Studio/formStudio',
         });
@@ -57,7 +57,7 @@ export class StudioController {
 
     @UseGuards(PermissionGuard(PERMISSION_BACKOFFICE_UPDATE_STUDIO))
     @Get('edit/:id')
-    async editPage(@Param('id') id: number) {
+    async editPage(@Param('id') id: number): Promise<void> {
         const data = await this.studioCrudApplication.findOneById(id);
 
         return this.inertiaAdapter.render({
@@ -72,7 +72,7 @@ export class StudioController {
 
     @UseGuards(PermissionGuard(PERMISSION_BACKOFFICE_CREATE_STUDIO))
     @Post('create')
-    async store(@Body() data: IStudio) {
+    async store(@Body() data: IStudio): Promise<void> {
         await this.studioCrudApplication.create(data);
 
         return this.inertiaAdapter.successResponse(
@@ -83,7 +83,10 @@ export class StudioController {
 
     @UseGuards(PermissionGuard(PERMISSION_BACKOFFICE_UPDATE_STUDIO))
     @Put('edit/:id')
-    async update(@Param('id') id: number, @Body() data: IStudio) {
+    async update(
+        @Param('id') id: number,
+        @Body() data: IStudio,
+    ): Promise<void> {
         await this.studioCrudApplication.update(id, data);
 
         return this.inertiaAdapter.successResponse(
@@ -94,7 +97,7 @@ export class StudioController {
 
     @UseGuards(PermissionGuard(PERMISSION_BACKOFFICE_DELETE_STUDIO))
     @Delete('delete/:id')
-    async delete(@Param('id') id: number) {
+    async delete(@Param('id') id: number): Promise<void> {
         await this.studioCrudApplication.delete(id);
 
         return this.inertiaAdapter.successResponse(

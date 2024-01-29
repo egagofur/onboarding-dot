@@ -21,45 +21,41 @@ export class TagIndexApplication extends IndexApplication {
     }
 
     async fetch(request: TagIndexRequest): Promise<IPaginateResponse<ITags>> {
-        try {
-            const query = this.movieRepository.createQueryBuilder('tags');
+        const query = this.movieRepository.createQueryBuilder('tags');
 
-            if (request.search) {
-                query.where(`concat(tags.title, ' ', tags.id) like :search`, {
-                    search: `%${request.search}%`,
-                });
-            }
-
-            if (request.sort === 'latest') {
-                query.orderBy('tags.createdAt', 'DESC');
-            } else if (request.sort === 'oldest') {
-                query.orderBy('tags.createdAt', 'ASC');
-            } else {
-                query.orderBy(
-                    ALLOW_TO_SORT.indexOf(request.sort) >= 0
-                        ? request.sort
-                            ? `tags.${request.sort}`
-                            : `tags.${ALLOW_TO_SORT[0]}`
-                        : `tags.createdAt`,
-                    this.getOrder(request.order),
-                );
-            }
-
-            query.take(request.perPage ?? 10);
-            query.skip(this.countOffset(request));
-
-            const [data, count] = await query.getManyAndCount();
-
-            const meta = this.mapMeta(count, request);
-
-            const results = {
-                data,
-                meta,
-            };
-
-            return results;
-        } catch (error) {
-            console.log(error);
+        if (request.search) {
+            query.where(`concat(tags.title, ' ', tags.id) like :search`, {
+                search: `%${request.search}%`,
+            });
         }
+
+        if (request.sort === 'latest') {
+            query.orderBy('tags.createdAt', 'DESC');
+        } else if (request.sort === 'oldest') {
+            query.orderBy('tags.createdAt', 'ASC');
+        } else {
+            query.orderBy(
+                ALLOW_TO_SORT.indexOf(request.sort) >= 0
+                    ? request.sort
+                        ? `tags.${request.sort}`
+                        : `tags.${ALLOW_TO_SORT[0]}`
+                    : `tags.createdAt`,
+                this.getOrder(request.order),
+            );
+        }
+
+        query.take(request.perPage ?? 10);
+        query.skip(this.countOffset(request));
+
+        const [data, count] = await query.getManyAndCount();
+
+        const meta = this.mapMeta(count, request);
+
+        const results = {
+            data,
+            meta,
+        };
+
+        return results;
     }
 }

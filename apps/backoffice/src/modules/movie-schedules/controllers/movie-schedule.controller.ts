@@ -89,16 +89,12 @@ export class MovieScheduleController {
     @UseGuards(PermissionGuard(PERMISSION_BACKOFFICE_CREATE_SCHEDULE))
     @Post('create')
     async store(@Body() data: IMovieSchedule): Promise<void> {
-        try {
-            await this.movieScheduleCrudApplication.create(data);
+        await this.movieScheduleCrudApplication.create(data);
 
-            return this.inertiaAdapter.successResponse(
-                'movie-schedules',
-                'Success create movie schedule',
-            );
-        } catch (error) {
-            console.log(error);
-        }
+        return this.inertiaAdapter.successResponse(
+            'movie-schedules',
+            'Success create movie schedule',
+        );
     }
 
     @UseGuards(PermissionGuard(PERMISSION_BACKOFFICE_UPDATE_SCHEDULE))
@@ -107,30 +103,22 @@ export class MovieScheduleController {
         @Param('id') id: number,
         @Body() data: IMovieSchedule,
     ): Promise<void> {
-        try {
-            await this.movieScheduleCrudApplication.update(id, data);
+        await this.movieScheduleCrudApplication.update(id, data);
 
-            return this.inertiaAdapter.successResponse(
-                'movie-schedules',
-                `Success update movie schedule with id ${id}`,
-            );
-        } catch (error) {
-            console.log(error);
-        }
+        return this.inertiaAdapter.successResponse(
+            'movie-schedules',
+            `Success update movie schedule with id ${id}`,
+        );
     }
 
     @UseGuards(PermissionGuard(PERMISSION_BACKOFFICE_DELETE_SCHEDULE))
     @Delete('delete/:id')
     async delete(@Param('id') id: number): Promise<void> {
-        try {
-            await this.movieScheduleCrudApplication.delete(id);
+        await this.movieScheduleCrudApplication.delete(id);
 
-            return this.inertiaAdapter.successResponse(
-                'movie-schedules',
-                `Success delete movie schedule with id ${id}`,
-            );
-        } catch (error) {
-            console.log(error);
-        }
+        return this.inertiaAdapter.successResponse(
+            'movie-schedules',
+            `Success delete movie schedule with id ${id}`,
+        );
     }
 }

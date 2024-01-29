@@ -32,7 +32,7 @@ import { MailModule } from '../../infrastructure/mail/mail.module';
 import { MailService } from '../../infrastructure/mail/service/mail.service';
 import { AuthUserService } from './services/auth-user.service';
 import { BullModule } from '@nestjs/bull';
-import { AuthSendEmailQueueProcessor } from './applications/auth.processor';
+import { AuthSendEmailQueueProcessor } from './processors/auth.processor';
 
 @Module({
     imports: [

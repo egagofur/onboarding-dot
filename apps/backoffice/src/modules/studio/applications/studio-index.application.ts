@@ -23,48 +23,44 @@ export class StudioIndexApplication extends IndexApplication {
     async fetch(
         request: StudioIndexRequest,
     ): Promise<IPaginateResponse<IStudio>> {
-        try {
-            const query = this.movieRepository.createQueryBuilder('studios');
+        const query = this.movieRepository.createQueryBuilder('studios');
 
-            if (request.search) {
-                query.where(
-                    `concat(studios.studioNumber, ' ', studios.id) like :search`,
-                    {
-                        search: `%${request.search}%`,
-                    },
-                );
-            }
-
-            if (request.sort === 'latest') {
-                query.orderBy('studios.createdAt', 'DESC');
-            } else if (request.sort === 'oldest') {
-                query.orderBy('studios.createdAt', 'ASC');
-            } else {
-                query.orderBy(
-                    ALLOW_TO_SORT.indexOf(request.sort) >= 0
-                        ? request.sort
-                            ? `studios.${request.sort}`
-                            : `studios.${ALLOW_TO_SORT[0]}`
-                        : `studios.createdAt`,
-                    this.getOrder(request.order),
-                );
-            }
-
-            query.take(request.perPage ?? 10);
-            query.skip(this.countOffset(request));
-
-            const [data, count] = await query.getManyAndCount();
-
-            const meta = this.mapMeta(count, request);
-
-            const results = {
-                data,
-                meta,
-            };
-
-            return results;
-        } catch (error) {
-            console.log(error);
+        if (request.search) {
+            query.where(
+                `concat(studios.studioNumber, ' ', studios.id) like :search`,
+                {
+                    search: `%${request.search}%`,
+                },
+            );
         }
+
+        if (request.sort === 'latest') {
+            query.orderBy('studios.createdAt', 'DESC');
+        } else if (request.sort === 'oldest') {
+            query.orderBy('studios.createdAt', 'ASC');
+        } else {
+            query.orderBy(
+                ALLOW_TO_SORT.indexOf(request.sort) >= 0
+                    ? request.sort
+                        ? `studios.${request.sort}`
+                        : `studios.${ALLOW_TO_SORT[0]}`
+                    : `studios.createdAt`,
+                this.getOrder(request.order),
+            );
+        }
+
+        query.take(request.perPage ?? 10);
+        query.skip(this.countOffset(request));
+
+        const [data, count] = await query.getManyAndCount();
+
+        const meta = this.mapMeta(count, request);
+
+        const results = {
+            data,
+            meta,
+        };
+
+        return results;
     }
 }

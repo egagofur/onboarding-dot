@@ -42,8 +42,6 @@ const formMovieSchedules = (props: IProps) => {
     const { notifyNavigating } = useContext(AppContext);
     const [form] = Form.useForm();
 
-    console.log(props);
-
     const onFinish = async () => {
         setIsLoading(true);
         const data = form.getFieldsValue();
