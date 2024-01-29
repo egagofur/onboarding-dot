@@ -37,6 +37,6 @@ export class MovieCreateRequest {
     @ArrayNotEmpty({ message: 'Field wajib diisi' })
     @IsArray()
     @IsNumber({}, { each: true })
-    @ArrayMinSize(3, { each: true })
+    @ArrayMinSize(1, { each: true })
     tagsId?: number[];
 }
