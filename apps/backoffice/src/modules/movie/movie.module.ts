@@ -20,10 +20,6 @@ import { FileUploadProcessor } from './applications/movie.processor';
         TypeOrmModule.forFeature([Movie]),
         BullModule.registerQueue({
             name: 'image-upload-queue',
-            limiter: {
-                max: 1000,
-                duration: 1000,
-            },
         }),
         MulterModule.register({
             dest: path.resolve('./') + '/dist/' + config.assets.temp,

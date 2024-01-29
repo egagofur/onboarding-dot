@@ -57,7 +57,9 @@ export class MovieController {
 
     @UseGuards(PermissionGuard(PERMISSION_BACKOFFICE_CREATE_MOVIE))
     @Post('create')
-    async store(@Body() moviesCreateRequest: MovieCreateRequest) {
+    async store(
+        @Body() moviesCreateRequest: MovieCreateRequest,
+    ): Promise<void> {
         await this.movieCrudApplication.create(moviesCreateRequest);
         return this.inertiaAdapter.successResponse(
             'movies',
@@ -70,7 +72,7 @@ export class MovieController {
     async update(
         @Param('id') id: number,
         @Body() movieUpdateRequest: MovieUpdateRequest,
-    ) {
+    ): Promise<void> {
         await this.movieCrudApplication.update(id, movieUpdateRequest);
         return this.inertiaAdapter.successResponse(
             'movies',
@@ -80,7 +82,7 @@ export class MovieController {
 
     @UseGuards(PermissionGuard(PERMISSION_BACKOFFICE_DELETE_MOVIE))
     @Delete('delete/:id')
-    async delete(@Param('id') id: number) {
+    async delete(@Param('id') id: number): Promise<void> {
         await this.movieCrudApplication.delete(id);
 
         return this.inertiaAdapter.successResponse(

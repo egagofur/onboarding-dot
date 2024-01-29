@@ -6,7 +6,7 @@ import { Logger } from '@nestjs/common';
 @Processor('image-upload-queue')
 export class FileUploadProcessor {
     @Process('upload-file')
-    async processUpload(job: Job) {
+    async processUpload(job: Job): Promise<void> {
         try {
             const file = job.data.file;
             const ext = file.mimetype.split('/')[1];
