@@ -3,6 +3,7 @@ import {
     Controller,
     Delete,
     Get,
+    Logger,
     Param,
     Patch,
     Post,
@@ -50,7 +51,7 @@ export class MovieController {
                 meta: null,
             };
         } catch (error) {
-            console.log(error);
+            return Logger.error(error, 'MovieController');
         }
     }
 

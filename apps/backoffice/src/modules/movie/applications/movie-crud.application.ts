@@ -62,7 +62,7 @@ export class MovieCrudApplication {
 
         const tags = await getManager()
             .getRepository(Tag)
-            .findByIds(movieRequest.tags);
+            .findByIds(movieRequest.tagsId);
 
         const movieTags: MovieTags[] = [];
         tags.forEach((tag) => {
@@ -100,7 +100,7 @@ export class MovieCrudApplication {
 
         const tags = await getManager()
             .getRepository(Tag)
-            .findByIds(movieRequest.tags);
+            .findByIds(movieRequest.tagsId);
 
         const movieTags: MovieTags[] = [];
         tags.forEach((tag) => {

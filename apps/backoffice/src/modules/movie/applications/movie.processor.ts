@@ -1,12 +1,10 @@
 import { Process, Processor } from '@nestjs/bull';
-import { ImageUploadService } from '../../auth/services/image-upload.services';
 import { Job } from 'bull';
 import { Utils } from 'apps/backoffice/src/common/utils/util';
+import { Logger } from '@nestjs/common';
 
 @Processor('image-upload-queue')
 export class FileUploadProcessor {
-    constructor(private readonly imageUploadService: ImageUploadService) {}
-
     @Process('upload-file')
     async processUpload(job: Job) {
         try {
@@ -19,8 +17,10 @@ export class FileUploadProcessor {
 
             const destPath = 'uploads/' + fileName;
             const nameFile = await Utils.moveFile(file.path, destPath);
+            Logger.log(nameFile, 'FileUploadProcessor');
             console.log('[ Queue upload file berhasil ] - Success ', nameFile);
         } catch (error) {
+            Logger.error(error, 'FileUploadProcessor');
             console.log('[ Queue upload file gagal ] - Error ', error);
         }
     }

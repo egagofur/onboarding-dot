@@ -3,33 +3,21 @@ import { MovieService } from './services/movie.service';
 import { MovieController } from './controllers/movie.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Movie } from 'entities/movie/movie.entity';
-import { Tag } from 'entities/movie/tag.entity';
-import { MovieTags } from 'entities/movie/movie-tags.entity';
-import { Studio } from 'entities/movie/studio.entity';
-import { MovieSchedule } from 'entities/movie/movie-schedule.entity';
 import { MovieCrudApplication } from './applications/movie-crud.application';
 import { InertiaAdapter } from '../../infrastructure/inertia/adapter/inertia.adapter';
 import { MovieIndexApplication } from './applications/movie-index.application';
-import { TagService } from '../tag/services/tag.service';
-import { TagCrudApplication } from '../tag/applications/tag-crud.application';
-import { MovieTagService } from '../movie-tag/services/movie-tag.service';
 import { BullModule } from '@nestjs/bull';
-import { MovieScheduleService } from '../movie-schedules/services/movie-schedule.services';
 import { MulterModule } from '@nestjs/platform-express';
 import { config } from '../../config';
 import path from 'path';
+import { MovieTagModule } from '../movie-tag/movie-tag.module';
+import { MovieScheduleModule } from '../movie-schedules/movie-schedule.module';
+import { TagModule } from '../tag/tag.module';
 import { FileUploadProcessor } from './applications/movie.processor';
-import { ImageUploadService } from '../auth/services/image-upload.services';
 
 @Module({
     imports: [
-        TypeOrmModule.forFeature([
-            Movie,
-            Tag,
-            MovieTags,
-            Studio,
-            MovieSchedule,
-        ]),
+        TypeOrmModule.forFeature([Movie]),
         BullModule.registerQueue({
             name: 'image-upload-queue',
             limiter: {
@@ -40,18 +28,16 @@ import { ImageUploadService } from '../auth/services/image-upload.services';
         MulterModule.register({
             dest: path.resolve('./') + '/dist/' + config.assets.temp,
         }),
+        MovieTagModule,
+        MovieScheduleModule,
+        TagModule,
     ],
     providers: [
         MovieService,
         MovieCrudApplication,
         InertiaAdapter,
         MovieIndexApplication,
-        TagService,
-        TagCrudApplication,
-        MovieTagService,
-        MovieScheduleService,
         FileUploadProcessor,
-        ImageUploadService,
     ],
     controllers: [MovieController],
     exports: [MovieCrudApplication],

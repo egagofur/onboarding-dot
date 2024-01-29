@@ -26,8 +26,7 @@ const schema = yup.object().shape({
     overview: yup.string().required('Field overview is required'),
     poster: yup.string().required('Field poster is required'),
     playUntil: yup.string().required('Field play until is required'),
-    shedule: yup.array().of(yup.number().required()),
-    tags: yup.array().of(yup.number().required()),
+    tagsId: yup.array().of(yup.number().required()).required(),
 });
 
 const formMovie = (props: IProps) => {
@@ -71,7 +70,7 @@ const formMovie = (props: IProps) => {
                     initialValues={
                         props.isEdit && {
                             ...props.data,
-                            tags: props.data.tag.map((tag) => tag.id),
+                            tagsId: props.data.tag.map((tag) => tag.id),
                         }
                     }
                     buttonAction={[
@@ -136,7 +135,7 @@ const formMovie = (props: IProps) => {
                         <Col sm={12} lg={24}>
                             <Form.Item
                                 label="Tags"
-                                name="tags"
+                                name="tagsId"
                                 required
                                 rules={[yupSync]}
                             >

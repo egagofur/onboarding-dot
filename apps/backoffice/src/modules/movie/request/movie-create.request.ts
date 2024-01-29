@@ -1,18 +1,32 @@
-import { IsDate, IsNotEmpty, IsOptional, IsString } from 'class-validator';
-import { IMovieSchedule } from 'interface-models/movie/movie-schedule.interface';
-import { IMovieTags } from 'interface-models/movie/movie-tags.interface';
+import {
+    IsArray,
+    IsDate,
+    IsNotEmpty,
+    IsNumber,
+    IsOptional,
+    IsString,
+    MaxLength,
+    Min,
+    MinLength,
+} from 'class-validator';
 
 export class MovieCreateRequest {
     @IsNotEmpty({ message: 'Field wajib diisi' })
-    @IsString()
+    @IsString({ message: 'Field harus berupa string' })
+    @MinLength(3, { message: 'Minimal 3 karakter' })
+    @MaxLength(100, { message: 'Maksimal 100 karakter' })
     title: string;
 
     @IsNotEmpty({ message: 'Field wajib diisi' })
     @IsString()
+    @MinLength(3, { message: 'Minimal 3 karakter' })
+    @MaxLength(250, { message: 'Maksimal 250 karakter' })
     overview: string;
 
     @IsOptional()
     @IsString()
+    @MinLength(3, { message: 'Minimal 3 karakter' })
+    @MaxLength(250, { message: 'Maksimal 250 karakter' })
     poster?: string;
 
     @IsNotEmpty({ message: 'Field wajib diisi' })
@@ -20,8 +34,8 @@ export class MovieCreateRequest {
     playUntil: Date;
 
     @IsNotEmpty({ message: 'Field wajib diisi' })
-    tags?: IMovieTags[];
-
-    @IsOptional()
-    shedule?: IMovieSchedule[];
+    @IsArray()
+    @IsNumber({}, { each: true })
+    @Min(1, { each: true })
+    tagsId?: number[];
 }

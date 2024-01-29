@@ -16,6 +16,6 @@ import { TagIndexApplication } from './applications/tag-index.application';
         TagIndexApplication,
     ],
     controllers: [TagController],
-    exports: [TagCrudApplication],
+    exports: [TagCrudApplication, TagService],
 })
 export class TagModule {}

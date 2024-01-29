@@ -17,23 +17,12 @@ export class MovieService {
     }
 
     async update(id: number, data: IMovie): Promise<IMovie> {
-        try {
-            const status = await this.movieRepository.update(
-                { id },
-                { ...data },
-            );
-            if (status.affected < 1) {
-                throw new QueryFailedError(
-                    'Error, Data not changed',
-                    null,
-                    null,
-                );
-            }
-
-            return data;
-        } catch (error) {
-            console.log(error);
+        const status = await this.movieRepository.update({ id }, { ...data });
+        if (status.affected < 1) {
+            throw new QueryFailedError('Error, Data not changed', null, null);
         }
+
+        return data;
     }
 
     async delete(id: number): Promise<void> {
@@ -46,8 +35,7 @@ export class MovieService {
     async findOneById(id: number): Promise<IMovie> {
         const movie = this.movieRepository.createQueryBuilder('movie');
         movie.leftJoinAndSelect('movie.tag', 'tag');
-        const results = await movie.where('movie.id = :id', { id }).getOne();
-        return results;
+        return await movie.where('movie.id = :id', { id }).getOne();
     }
 
     async findOneByIdAndTitle(
@@ -56,12 +44,10 @@ export class MovieService {
     ): Promise<IMovie | null> {
         const movie = this.movieRepository.createQueryBuilder('movie');
         movie.leftJoinAndSelect('movie.tag', 'tag');
-        const results = await movie
+        return await movie
             .where('movie.id = :id', { id })
             .andWhere('movie.title = :title', { title })
             .getOne();
-
-        return results;
     }
 
     async findOneByTitle(title: string): Promise<IMovie> {

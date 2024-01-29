@@ -8,5 +8,6 @@ import { MovieTags } from 'entities/movie/movie-tags.entity';
     imports: [TypeOrmModule.forFeature([MovieTags])],
     providers: [MovieTagService],
     controllers: [MovieTagController],
+    exports: [MovieTagService],
 })
 export class MovieTagModule {}

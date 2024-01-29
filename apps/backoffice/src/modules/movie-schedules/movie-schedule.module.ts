@@ -22,6 +22,6 @@ import { StudioService } from '../studio/services/studio.service';
         StudioService,
     ],
     controllers: [MovieScheduleController],
-    exports: [MovieScheduleCrudApplication],
+    exports: [MovieScheduleCrudApplication, MovieScheduleService],
 })
 export class MovieScheduleModule {}
