@@ -68,4 +68,8 @@ export class TagService {
     async bulkDelete(ids: number[]): Promise<void> {
         await this.tagsRepository.delete(ids);
     }
+
+    async findAllByIds(ids: number[]): Promise<ITags[]> {
+        return this.tagsRepository.findByIds(ids);
+    }
 }

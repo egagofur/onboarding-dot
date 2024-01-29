@@ -260,7 +260,29 @@ export class Utils {
         return [traceIdFromFe, replayIdFromFe];
     }
 
-    static fileFilter(req, file, callback) {
+    /**
+     * Filters the uploaded file based on its original name.
+     * Only allows image files with extensions .jpg, .jpeg, and .png.
+     * @param req - The request object.
+     * @param file - The uploaded file object.
+     * @param callback - The callback function to be called after filtering.
+     * @returns void
+     * @throws Error - If the file is not an image file.
+     * @example
+     * // Example usage:
+     * fileFilter(req, file, (error, result) => {
+     *   if (error) {
+     *     console.error(error);
+     *   } else {
+     *     console.log(result);
+     *   }
+     * });
+     */
+    static fileFilter(
+        req: Request,
+        file: Express.Multer.File,
+        callback: any,
+    ): void {
         if (!file.originalname.match(/\.(jpg|jpeg|png)$/)) {
             return callback(new Error('Only image files are allowed!'));
         }

@@ -1,4 +1,6 @@
 import {
+    ArrayMinSize,
+    ArrayNotEmpty,
     IsArray,
     IsDate,
     IsNotEmpty,
@@ -6,7 +8,6 @@ import {
     IsOptional,
     IsString,
     MaxLength,
-    Min,
     MinLength,
 } from 'class-validator';
 
@@ -33,9 +34,9 @@ export class MovieUpdateRequest {
     @IsDate()
     playUntil: Date;
 
-    @IsNotEmpty({ message: 'Field wajib diisi' })
+    @ArrayNotEmpty({ message: 'Field wajib diisi' })
     @IsArray()
     @IsNumber({}, { each: true })
-    @Min(1, { each: true })
+    @ArrayMinSize(1, { each: true })
     tagsId?: number[];
 }

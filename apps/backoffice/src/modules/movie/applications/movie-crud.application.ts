@@ -14,12 +14,14 @@ import { MovieTagService } from '../../movie-tag/services/movie-tag.service';
 import { InjectQueue } from '@nestjs/bull';
 import { Queue } from 'bull';
 import { config } from 'apps/backoffice/src/config';
+import { TagService } from '../../tag/services/tag.service';
 @Injectable()
 export class MovieCrudApplication {
     constructor(
         @InjectQueue('image-upload-queue') private fileQueue: Queue,
         private readonly movieService: MovieService,
         private readonly movieTagsService: MovieTagService,
+        private readonly tagService: TagService,
     ) {}
 
     async uploadGeneral(file: Express.Multer.File): Promise<string> {
@@ -98,9 +100,7 @@ export class MovieCrudApplication {
             ...updateMovie,
         });
 
-        const tags = await getManager()
-            .getRepository(Tag)
-            .findByIds(movieRequest.tagsId);
+        const tags = await this.tagService.findAllByIds(movieRequest.tagsId);
 
         const movieTags: MovieTags[] = [];
         tags.forEach((tag) => {
