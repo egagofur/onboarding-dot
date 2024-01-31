@@ -49,7 +49,7 @@ export class TagController {
     @Get('create')
     async create(): Promise<void> {
         return this.inertiaAdapter.render({
-            component: 'Tags/formTags',
+            component: 'Tags/FormTags',
         });
     }
 
@@ -58,7 +58,7 @@ export class TagController {
     async edit(@Param('id') id: number): Promise<void> {
         const data = await this.tagCrudApplication.findOneById(id);
         return this.inertiaAdapter.render({
-            component: 'Tags/formTags',
+            component: 'Tags/FormTags',
             props: {
                 id,
                 data,

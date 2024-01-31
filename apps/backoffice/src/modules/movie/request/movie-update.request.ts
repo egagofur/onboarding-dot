@@ -37,6 +37,6 @@ export class MovieUpdateRequest {
     @ArrayNotEmpty({ message: 'Field wajib diisi' })
     @IsArray()
     @IsNumber({}, { each: true })
-    @ArrayMinSize(1, { each: true })
+    @ArrayMinSize(1)
     tagsId?: number[];
 }

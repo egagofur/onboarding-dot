@@ -59,7 +59,7 @@ export class MovieScheduleController {
         const studios = await this.movieScheduleCrudApplication.getStudioList();
 
         return this.inertiaAdapter.render({
-            component: 'MovieSchedules/formMovieSchedules',
+            component: 'MovieSchedules/FormMovieSchedules',
             props: {
                 movies,
                 studios,
@@ -75,7 +75,7 @@ export class MovieScheduleController {
         const studios = await this.movieScheduleCrudApplication.getStudioList();
 
         return this.inertiaAdapter.render({
-            component: 'MovieSchedules/formMovieSchedules',
+            component: 'MovieSchedules/FormMovieSchedules',
             props: {
                 id,
                 data,

@@ -79,48 +79,6 @@ const menuItems: MenuItem[] = [
             },
         ],
     },
-    // {
-    //     key: '#Sample-Form',
-    //     label: 'Sample Form',
-    //     icon: <BarsOutlined />,
-    //     theme: 'light',
-    //     children: [
-    //         {
-    //             key: Route.SampleFormBasic,
-    //             label: <Link href={Route.SampleFormBasic}>Form Basic</Link>,
-    //         },
-    //         {
-    //             key: Route.SampleFormStep,
-    //             label: <Link href={Route.SampleFormStep}>Form Step</Link>,
-    //         },
-    //         {
-    //             key: Route.SampleFormAdvanced,
-    //             label: (
-    //                 <Link href={Route.SampleFormAdvanced}>Form Advanced</Link>
-    //             ),
-    //         },
-    //     ],
-    // },
-    // {
-    //     key: '#Sample-Detail',
-    //     label: 'Sample Detail',
-    //     icon: <BarsOutlined />,
-    //     theme: 'light',
-    //     children: [
-    //         {
-    //             key: Route.SampleDetailBasic,
-    //             label: <Link href={Route.SampleDetailBasic}>Detail Basic</Link>,
-    //         },
-    //         {
-    //             key: Route.SampleDetailAdvanced,
-    //             label: (
-    //                 <Link href={Route.SampleDetailAdvanced}>
-    //                     Detail Advanced
-    //                 </Link>
-    //             ),
-    //         },
-    //     ],
-    // },
     {
         key: Route.Movies,
         label: <Link href={Route.Movies}>Movie</Link>,

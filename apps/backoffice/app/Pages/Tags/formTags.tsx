@@ -28,12 +28,10 @@ const formTags = (props: IProps) => {
     const { notifyNavigating } = useContext(AppContext);
     const [form] = Form.useForm();
 
-    const onFinish = async () => {
+    const onFinish = async (data: ITags) => {
         setIsLoading(true);
-        const data = form.getFieldsValue();
 
         try {
-            await form.validateFields();
             props.isEdit ? updateTags(props.id, data) : createTags(data);
             notifyNavigating();
             setIsLoading(false);

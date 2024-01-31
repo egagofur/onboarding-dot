@@ -8,7 +8,7 @@ import Dragger from 'antd/es/upload/Dragger';
 import * as yup from 'yup';
 import { createYupSync } from '../../Utils/utils';
 import { AppContext } from '../../Contexts/App';
-import { uploadFile } from '../../Modules/Movie/Action';
+import { uploadFile } from '../../Modules/Movies/Action';
 import { InboxOutlined } from '@ant-design/icons';
 import { Route } from '../../Common/Route/Route';
 
@@ -24,8 +24,6 @@ const UploadPhoto = (props: IProps) => {
     const { notifyNavigating } = useContext(AppContext);
     const [isLoading, setIsLoading] = useState(false);
 
-    const onReset = form.resetFields();
-
     const handleUpload = (info) => {
         if (form.getFieldValue('file').fileList.length > 1) {
             form.getFieldValue('file').fileList.shift();
@@ -38,12 +36,10 @@ const UploadPhoto = (props: IProps) => {
         }
     };
 
-    const onFinish = async () => {
+    const onFinish = async (data: string) => {
         setIsLoading(true);
-        const data = form.getFieldsValue();
 
         try {
-            await form.validateFields();
             uploadFile(data);
             notifyNavigating();
             setIsLoading(false);
@@ -61,7 +57,6 @@ const UploadPhoto = (props: IProps) => {
                     errors={props.error}
                     centered
                     buttonAction={[
-                        <Button onClick={() => onReset}>Discard</Button>,
                         <Button
                             type="primary"
                             htmlType="submit"

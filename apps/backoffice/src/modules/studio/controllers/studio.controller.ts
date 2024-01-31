@@ -51,7 +51,7 @@ export class StudioController {
     @Get('create')
     async createPage(): Promise<void> {
         return this.inertiaAdapter.render({
-            component: 'Studio/formStudio',
+            component: 'Studio/FormStudio',
         });
     }
 
@@ -61,7 +61,7 @@ export class StudioController {
         const data = await this.studioCrudApplication.findOneById(id);
 
         return this.inertiaAdapter.render({
-            component: 'Studio/formStudio',
+            component: 'Studio/FormStudio',
             props: {
                 id: data.id,
                 data: StudioMapper.fromEntity(data),

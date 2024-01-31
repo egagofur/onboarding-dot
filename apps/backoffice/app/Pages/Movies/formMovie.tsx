@@ -10,10 +10,11 @@ import { ITags } from 'interface-models/movie/tags.interface';
 import { Button, Col, Form, Input, Row, Select } from 'antd';
 import { BasicDatePicker } from '../../Components/molecules/Pickers/BasicDatePicker';
 import dayjs from 'dayjs';
-import { createMovie, updateMovie } from '../../Modules/Movie/Action';
+import { createMovie, updateMovie } from '../../Modules/Movies/Action';
 import { AppContext } from '../../Contexts/App';
 import { Route } from '../../Common/Route/Route';
 import { Link } from '@inertiajs/inertia-react';
+import { IMovieForm } from '../../Modules/Movies/Entities';
 
 interface IProps extends TInertiaProps {
     isEdit?: boolean;
@@ -39,17 +40,14 @@ const formMovie = (props: IProps) => {
         form.setFieldValue('playUntil', dateString);
     };
 
-    const onFinish = async () => {
+    const onFinish = async (data: IMovieForm) => {
         setIsLoading(true);
-        const data = form.getFieldsValue();
 
         try {
-            await form.validateFields();
             props.isEdit ? updateMovie(props.data.id, data) : createMovie(data);
             notifyNavigating();
             setIsLoading(false);
         } catch (error) {
-            console.log(error);
             setIsLoading(false);
         }
     };

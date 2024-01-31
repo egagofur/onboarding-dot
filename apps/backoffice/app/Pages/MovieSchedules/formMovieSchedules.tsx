@@ -16,7 +16,7 @@ import { IStudio } from 'interface-models/movie/studio.interface';
 import {
     createMovieSchedule,
     updateMovieSchedule,
-} from '../../Modules/Movie-Schedules/Action';
+} from '../../Modules/MovieSchedules/Action';
 import moment from 'moment-timezone';
 
 interface IProps extends TInertiaProps {
@@ -42,19 +42,16 @@ const formMovieSchedules = (props: IProps) => {
     const { notifyNavigating } = useContext(AppContext);
     const [form] = Form.useForm();
 
-    const onFinish = async () => {
+    const onFinish = async (data: IMovieSchedule) => {
         setIsLoading(true);
-        const data = form.getFieldsValue();
 
         try {
-            await form.validateFields();
             props.isEdit
                 ? updateMovieSchedule(props.id, data)
                 : createMovieSchedule(data);
             notifyNavigating();
             setIsLoading(false);
         } catch (error) {
-            console.log(error);
             setIsLoading(false);
         }
     };

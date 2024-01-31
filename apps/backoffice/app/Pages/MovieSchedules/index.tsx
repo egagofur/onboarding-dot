@@ -12,7 +12,7 @@ import { formatDate } from '../../Utils/utils';
 import { RowActionButtons } from '../../Components/molecules/RowActionButtons';
 import { useModal } from '../../Utils/modal';
 import { IMovieSchedule } from 'interface-models/movie/movie-schedule.interface';
-import { deleteMovieSchedule } from '../../Modules/Movie-Schedules/Action';
+import { deleteMovieSchedule } from '../../Modules/MovieSchedules/Action';
 import { Section } from '../../Components/molecules/Section';
 
 interface IProps {

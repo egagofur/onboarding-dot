@@ -10,7 +10,7 @@ import { formatDate } from '../../Utils/utils';
 import { Button } from '../../Components/atoms/Button';
 import { Route, route } from '../../Common/Route/Route';
 import { Space, Tag } from 'antd';
-import { deleteMovie } from '../../Modules/Movie/Action';
+import { deleteMovie } from '../../Modules/Movies/Action';
 import { AppContext } from '../../Contexts/App';
 import { RowActionButtons } from '../../Components/molecules/RowActionButtons';
 import { useModal } from '../../Utils/modal';

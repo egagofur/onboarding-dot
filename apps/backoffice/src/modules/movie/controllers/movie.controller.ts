@@ -110,7 +110,7 @@ export class MovieController {
     async createPage(): Promise<void> {
         const tags = await this.tagCrudApplication.findAll();
         return this.inertiaAdapter.render({
-            component: 'Movies/formMovie',
+            component: 'Movies/FormMovie',
             props: {
                 tags,
             },
@@ -124,7 +124,7 @@ export class MovieController {
         const tags = await this.tagCrudApplication.findAll();
 
         return this.inertiaAdapter.render({
-            component: 'Movies/formMovie',
+            component: 'Movies/FormMovie',
             props: {
                 id,
                 data,
@@ -137,7 +137,7 @@ export class MovieController {
     @Get('upload-photo')
     async uploadPhotoPage(): Promise<void> {
         return this.inertiaAdapter.render({
-            component: 'Movies/uploadPhoto',
+            component: 'Movies/UploadPhoto',
         });
     }
 }
