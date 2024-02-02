@@ -22,7 +22,7 @@ const schema = yup.object().shape({
     name: yup.string().required('Field name is required'),
 });
 
-const formTags = (props: IProps) => {
+const FormTags = (props: IProps) => {
     const yupSync = createYupSync(schema);
     const [isLoading, setIsLoading] = React.useState(false);
     const { notifyNavigating } = useContext(AppContext);
@@ -89,4 +89,4 @@ const formTags = (props: IProps) => {
     );
 };
 
-export default formTags;
+export default FormTags;

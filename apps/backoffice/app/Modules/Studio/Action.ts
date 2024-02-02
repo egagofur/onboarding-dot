@@ -1,18 +1,18 @@
-import { Inertia, RequestPayload } from '@inertiajs/inertia';
+import { Inertia } from '@inertiajs/inertia';
 import { Route, route } from '../../Common/Route/Route';
 import { IStudio } from 'interface-models/movie/studio.interface';
 
-export const createStudio = async (studio: IStudio & RequestPayload) => {
-    Inertia.post(Route.StudiosCreate, studio);
+export const createStudio = (studio: IStudio): void => {
+    Inertia.post(Route.StudiosCreate, studio as unknown as FormData);
 };
 
-export const updateStudio = async (
-    id: number,
-    studio: IStudio & RequestPayload,
-) => {
-    Inertia.put(route(Route.StudiosEdit, { id }), studio);
+export const updateStudio = (id: number, studio: IStudio): void => {
+    Inertia.put(
+        route(Route.StudiosEdit, { id }),
+        studio as unknown as FormData,
+    );
 };
 
-export const deleteStudio = async (id: number) => {
+export const deleteStudio = (id: number): void => {
     Inertia.delete(route(Route.StudiosDelete, { id }));
 };

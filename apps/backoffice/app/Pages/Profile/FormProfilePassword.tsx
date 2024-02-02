@@ -7,7 +7,10 @@ import { MainLayout as Layout } from '../../Layouts/MainLayout';
 import { Breadcrumbs } from '../../Common/Enums/Breadcrumb';
 import { Section } from '../../Components/molecules/Section';
 import { AppContext } from '../../Contexts/App';
-import { IProfileFormPassword } from '../../Modules/Profile/Entities';
+import {
+    IProfileForm,
+    IProfileFormPassword,
+} from '../../Modules/Profile/Entities';
 import { editProfilePassword } from '../../Modules/Profile/Action';
 import { TInertiaProps } from '../../Modules/Inertia/Entities';
 
@@ -50,12 +53,10 @@ const FormProfilePage: React.FC = (props: TInertiaProps) => {
     const [isLoading, setIsLoading] = useState(false);
     const { notifyNavigating } = useContext(AppContext);
 
-    const onFinish = async () => {
+    const onFinish = async (data: IProfileForm) => {
         setIsLoading(true);
-        const data = form.getFieldsValue();
 
         try {
-            await form.validateFields();
             editProfilePassword(data);
             notifyNavigating();
             setIsLoading(false);

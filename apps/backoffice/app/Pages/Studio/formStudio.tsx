@@ -23,7 +23,7 @@ const schema = yup.object().shape({
     seatCapacity: yup.number().required('Field name is required'),
 });
 
-const formTags = (props: IProps) => {
+const FormStudio = (props: IProps) => {
     const yupSync = createYupSync(schema);
     const [isLoading, setIsLoading] = React.useState(false);
     const { notifyNavigating } = useContext(AppContext);
@@ -100,4 +100,4 @@ const formTags = (props: IProps) => {
     );
 };
 
-export default formTags;
+export default FormStudio;

@@ -53,12 +53,10 @@ const FormUserPage: React.FC = (props: IProps) => {
     const [isLoading, setIsLoading] = useState(false);
     const { notifyNavigating } = useContext(AppContext);
 
-    const onFinish = async () => {
+    const onFinish = async (data: IUserForm) => {
         setIsLoading(true);
-        const data = form.getFieldsValue();
 
         try {
-            await form.validateFields();
             props.isUpdate ? editUser(props.data.id, data) : createUser(data);
             notifyNavigating();
             setIsLoading(false);

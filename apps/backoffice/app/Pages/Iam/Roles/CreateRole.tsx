@@ -64,13 +64,12 @@ const CreateRolePage: React.FC = (props: IProps) => {
     const [isLoading, setIsLoading] = useState(false);
     const { notifyNavigating } = useContext(AppContext);
 
-    const onFinish = async () => {
+    const onFinish = async (data: IRoleForm) => {
         setIsLoading(true);
-        const data = form.getFieldsValue();
+
         data.permissions = selectedRowKeys as number[];
 
         try {
-            await form.validateFields();
             createRole(data);
             notifyNavigating();
             setIsLoading(false);

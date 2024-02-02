@@ -32,7 +32,7 @@ type DataType = {
 interface IEditableCellProps extends React.HTMLAttributes<HTMLElement> {
     editing: boolean;
     dataIndex: string;
-    title: any;
+    title: string;
     inputType: 'number' | 'text';
     record: DataType;
     index: number;
@@ -220,12 +220,11 @@ const FormAdvanced = (props: TInertiaProps) => {
         });
     }, [columns]);
 
-    const onFinish = async (values: any) => {
+    const onFinish = async () => {
         setIsLoading(true);
 
         try {
             await form.validateFields();
-            console.log('Received values of form: ', values);
         } catch (error) {
             console.log(error);
         }

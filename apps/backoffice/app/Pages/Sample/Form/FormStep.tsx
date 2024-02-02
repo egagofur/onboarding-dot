@@ -20,8 +20,9 @@ import { Section } from '../../../Components/molecules/Section';
 import { TInertiaProps } from 'apps/backoffice/app/Modules/Inertia/Entities';
 
 const { Option } = Select;
+import { UploadChangeParam } from 'antd/lib/upload';
 
-const normFile = (e: any) => {
+const normFile = (e: UploadChangeParam) => {
     console.log('Upload event:', e);
     if (Array.isArray(e)) {
         return e;
@@ -51,11 +52,10 @@ const FormStep: React.FC = (props: TInertiaProps) => {
         setCurrent(current - 1);
     };
 
-    const onFinish = async (values: any) => {
+    const onFinish = async () => {
         setIsLoading(true);
         await form.validateFields();
         setIsLoading(false);
-        console.log('Received values of form: ', values);
     };
 
     const description = 'This is a description.';

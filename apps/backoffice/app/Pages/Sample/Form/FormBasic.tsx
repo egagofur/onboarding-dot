@@ -24,10 +24,11 @@ import { Section } from '../../../Components/molecules/Section';
 import { CheckboxDropdown } from 'apps/backoffice/app/Components/molecules/Dropdowns/CheckboxDropdown';
 import { Uploader } from 'apps/backoffice/app/Components/molecules/Form';
 import { TInertiaProps } from 'apps/backoffice/app/Modules/Inertia/Entities';
+import { UploadChangeParam } from 'antd/lib/upload';
 
 const { Option } = Select;
 
-const normFile = (e: any) => {
+const normFile = (e: UploadChangeParam) => {
     if (Array.isArray(e)) {
         return e;
     }
@@ -56,12 +57,11 @@ const FormBasic: React.FC = (props: TInertiaProps) => {
     const [form] = Form.useForm();
     const [isLoading, setIsLoading] = useState(false);
 
-    const onFinish = async (values: any) => {
+    const onFinish = async () => {
         setIsLoading(true);
         await form.validateFields();
         console.log(form.validateFields());
         setIsLoading(false);
-        console.log('Received values of form: ', values);
     };
 
     return (
